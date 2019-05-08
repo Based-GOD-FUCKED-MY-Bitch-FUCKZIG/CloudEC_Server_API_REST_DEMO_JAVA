@@ -1,0 +1,2 @@
+# CloudEC_Server_API_REST_DEMO_JAVA
+提供服务端API的接口参考，第三方应用可通过开放的REST接口进行业务集成，实现企业通讯录、音视频会议、运维支撑等功能。
