@@ -1,0 +1,33 @@
+/*
+
+    Name:       jsonColor
+    Author:     Michael Kaminsky (http://github.com/mkaminsky11)
+
+    Original jsonColor color scheme by Zeno Rocha (https://github.com/zenorocha/jsonColor-theme)
+
+*/
+  .cm-s-jsonColor .CodeMirror-gutters { color: #282a36; }
+  .cm-s-jsonColor .CodeMirror-cursor { border-left: solid thin #282a36; }
+  .cm-s-jsonColor .CodeMirror-linenumber { color: #6D8A88; }
+  .cm-s-jsonColor .CodeMirror-selected { background: #96CDCD }
+  .cm-s-jsonColor .CodeMirror-line::selection, .cm-s-jsonColor .CodeMirror-line > span::selection, .cm-s-jsonColor .CodeMirror-line > span > span::selection { background: rgba(255, 255, 255, 0.10); }
+  .cm-s-jsonColor .CodeMirror-line::-moz-selection, .cm-s-jsonColor .CodeMirror-line > span::-moz-selection, .cm-s-jsonColor .CodeMirror-line > span > span::-moz-selection { background: rgba(255, 255, 255, 0.10); }
+  .cm-s-jsonColor span.cm-comment { color: #0A070A; }
+  .cm-s-jsonColor span.cm-string, .cm-s-jsonColor span.cm-string-2 { color: rgb(141, 136, 63); }
+  .cm-s-jsonColor span.cm-number { color: #00BFFF; }
+  .cm-s-jsonColor span.cm-variable { color: #50fa7b; }
+  .cm-s-jsonColor span.cm-variable-2 { color: white; }
+  .cm-s-jsonColor span.cm-def { color: #50fa7b; }
+  .cm-s-jsonColor span.cm-operator { color: #ff79c6; }
+  .cm-s-jsonColor span.cm-keyword { color: #1A1AE6; }
+  .cm-s-jsonColor span.cm-atom { color: #bd93f9; }
+  .cm-s-jsonColor span.cm-meta { color: #ffb86c; }
+  .cm-s-jsonColor span.cm-tag { color: #ff79c6; }
+  .cm-s-jsonColor span.cm-attribute { color: #1A1AE6; }
+  .cm-s-jsonColor span.cm-qualifier { color: #50fa7b; }
+  .cm-s-jsonColor span.cm-property { color: #B22222; }
+  .cm-s-jsonColor span.cm-builtin { color: #50fa7b; }
+  .cm-s-jsonColor span.cm-variable-3, .cm-s-jsonColor span.cm-type { color: #ffb86c; }
+  
+  .cm-s-jsonColor .CodeMirror-activeline-background { background: #F5F5F5; }
+  .cm-s-jsonColor .CodeMirror-matchingbracket { outline:1px solid grey; color:black !important;}

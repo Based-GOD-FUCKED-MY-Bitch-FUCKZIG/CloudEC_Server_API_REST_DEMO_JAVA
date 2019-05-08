@@ -1,0 +1,17 @@
+spring:
+  profiles:
+    active: prod
+    
+server:
+  port: 3000
+  address: 0.0.0.0
+  session:
+    cookie:
+      secure: true
+jvm:
+  monitor:
+    fixedRate: 5000
+    maxTheadCount: 300
+    maxBlockTheadCount: 20
+    maxNativeMem: 536870912
+    maxNonHeapMem: 536870912
