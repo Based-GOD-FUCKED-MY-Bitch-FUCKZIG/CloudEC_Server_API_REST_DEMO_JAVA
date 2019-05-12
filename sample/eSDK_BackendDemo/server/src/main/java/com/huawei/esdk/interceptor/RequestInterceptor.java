@@ -35,7 +35,7 @@ public class RequestInterceptor implements HandlerInterceptor {
         }
 
         String[] auths = auth.split("\\|");
-        log.error("auth is :" + AuthedUtil.getAuth(auths[1]));
+        log.info("auth is :" + AuthedUtil.getAuth(auths[1]));
         if(!auths[0].equals(AuthedUtil.getAuth(auths[1]))){
             log.error("redirect to: "+request.getContextPath() + "/user/unauthed");
             response.sendRedirect(request.getContextPath() + "/user/unauthed");

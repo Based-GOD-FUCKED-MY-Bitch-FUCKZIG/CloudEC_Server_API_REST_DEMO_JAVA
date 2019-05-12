@@ -34,7 +34,7 @@ public class CommonController {
             return ErroMessage.connectLoseError(resultInfo);
         }
 
-        log.error("response is:  " + response.toString());
+        log.info("response is:  " + response.toString());
 
         int returnCode = jsonParser.parse(response.getEntity()).getAsJsonObject().get("returnCode").getAsInt();
 

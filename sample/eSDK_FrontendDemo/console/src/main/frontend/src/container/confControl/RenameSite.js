@@ -65,11 +65,6 @@ export default class RenamSite extends React.Component {
             return;
         }
 
-        if(url ==='' || url === undefined){
-            message.info("url不能为空!");
-            return;
-        }
-
         put(url,{data},headers).then((response)=>
         {
             //发送消息成功后改变初始值
@@ -152,12 +147,12 @@ export default class RenamSite extends React.Component {
                 <div style={{display: this.state.display}}>
                     <Tabs defaultActiveKey="1">
                         
-                        <TabPane tab={this.state.paramsKey1} key="2"> 
+                        <TabPane tab={this.state.paramsKey1} key="1"> 
                             <div>
                                 <CodeMirror value={this.state.responseBody} options={options} />
                             </div>
                         </TabPane>
-                        <TabPane tab="Headers" key="1">
+                        <TabPane tab="Headers" key="2">
                             <div>
                                 <ul>
                                 <div style={{float:'left',height:'40px',width:'100%'}}><li><Input style={{width:'30%'}} readOnly value="Connection"/> : <Input style={{width:'60%'}} readOnly value={connection} /></li></div>
