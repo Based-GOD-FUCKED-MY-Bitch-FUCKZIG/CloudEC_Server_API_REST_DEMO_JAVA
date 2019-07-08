@@ -25,9 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.huawei.esdk.service.UserService;
-
-import java.nio.charset.Charset;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,4 +53,5 @@ public class UserServiceImpl implements UserService {
         RestResponse response = HttpBuildUtil.sendMsg(resourceUri, restRequest);
         return response;
     }
+
 }

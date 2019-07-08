@@ -15,18 +15,21 @@
 package com.huawei.esdk;
 
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 
 @SpringBootApplication
 @Slf4j
-public class SpringBootApp {
+public class SpringBootApp extends SpringBootServletInitializer{
 
 	public static void main(String[] args) {
 		log.debug("程序开始了...");
 		SpringApplication.run(SpringBootApp.class, args);
+	}
+
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+		return builder.sources(SpringBootApp.class);
 	}
 }

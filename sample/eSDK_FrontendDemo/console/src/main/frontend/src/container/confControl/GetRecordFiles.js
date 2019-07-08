@@ -6,6 +6,7 @@ import { Button,Input,Tabs,message } from 'antd'
 import { get } from '@/utils/request'
 import {UnControlled as CodeMirror} from 'react-codemirror2'
 import 'codemirror/mode/javascript/javascript'
+import DateFormat from '@/utils/dateFormatUtils'
 require ('@/component/ui/codemirror.css')
 require ('@/component/ui/jsonColor.css')
 
@@ -29,7 +30,7 @@ let contentType;
 let contentLength;
 let server;
 let proxyId;
-
+//查询录播文件列表API接口调用
 export default class GetRecordFiles extends React.Component {
      constructor () {
          super();
@@ -59,10 +60,10 @@ export default class GetRecordFiles extends React.Component {
         let headers = {'Content-Type': 'application/json',
         'Accept': 'application/json',
         'Authorization': sessionStorage.getItem('access_token')}
-        
+        //查询录播文件列表
         get("/conferences/recordfile", headers,params).then((response)=>
         {            
-            //发送消息成功后改变初始值
+
             if(response.success) {
 
                 resAreaShow = 'block';
@@ -72,9 +73,7 @@ export default class GetRecordFiles extends React.Component {
                     paramsKey1:statusCodeAndresbody
                 });
 
-                console.log(response);
-
-                //发送消息后改变初始值
+                //获取响应后的结果
                 date=response.data.headers['Date'];
                 connection=response.data.headers['Connection'];
                 contentType=response.data.headers['Content-Type'];
@@ -88,11 +87,10 @@ export default class GetRecordFiles extends React.Component {
                     responseBody:JSON.stringify(JSON.parse(response.data.entity),null,4),
                 }));
             }else{
-                message.info(response.msg);
+                message.error(response.msg);
             }
         })
         
-       
         resAreaShow = 'block';
       }
     render() {
@@ -132,8 +130,8 @@ export default class GetRecordFiles extends React.Component {
                                 <div style={{float:'left',height:'40px',width:'100%'}}><li><Input style={{width:'30%'}} readOnly value="pageSize"/> : <Input style={{width:'60%'}} value={this.state.pageSize} onChange={({target:{value}})=>{pageSizeCopy=value; this.setState({pageSize:value})}}/></li></div>
                                 <div style={{float:'left',height:'40px',width:'100%'}}><li><Input style={{width:'30%'}} readOnly value="queryAll"/> : <Input style={{width:'60%'}} value={this.state.queryAll} onChange={({target:{value}})=>{queryAllCopy=value; this.setState({queryAll:value})}}/></li></div>
                                 <div style={{float:'left',height:'40px',width:'100%'}}><li><Input style={{width:'30%'}} readOnly value="condition"/> : <Input style={{width:'60%'}} value={this.state.condition} onChange={({target:{value}})=>{conditionCopy=value; this.setState({condition:value})}}/></li></div>
-                                <div style={{float:'left',height:'40px',width:'100%'}}><li><Input style={{width:'30%'}} readOnly value="startDate"/> : <Input style={{width:'60%'}} value={this.state.startDate} onChange={({target:{value}})=>{startDateCopy=value; this.setState({startDate:value})}}/></li></div>
-                                <div style={{float:'left',height:'40px',width:'100%'}}><li><Input style={{width:'30%'}} readOnly value="endDate"/> : <Input style={{width:'60%'}} value={this.state.endDate} onChange={({target:{value}})=>{endDateCopy=value; this.setState({endDate:value})}}/></li></div>
+                                <div style={{float:'left',height:'40px',width:'100%'}}><li><Input style={{width:'30%',color: 'rgba(255,0,0,1)'}} readOnly value="startDate"/> : <Input style={{width:'60%'}} value={this.state.startDate} onChange={({target:{value}})=>{startDateCopy=value; this.setState({startDate:value})}}/></li></div>
+                                <div style={{float:'left',height:'40px',width:'100%'}}><li><Input style={{width:'30%',color: 'rgba(255,0,0,1)'}} readOnly value="endDate"/> : <Input style={{width:'60%'}} value={this.state.endDate} onChange={({target:{value}})=>{endDateCopy=value; this.setState({endDate:value})}}/></li></div>
                                 <div style={{float:'left',height:'40px',width:'100%'}}><li><Input style={{width:'30%'}} readOnly value="sortType"/> : <Input style={{width:'60%'}} value={this.state.sortType} onChange={({target:{value}})=>{sortTypeCopy=value; this.setState({sortType:value})}}/></li></div>
                                 </ul>
                             </div>
@@ -149,6 +147,9 @@ export default class GetRecordFiles extends React.Component {
                         </TabPane>
                         <TabPane tab="Body" key="3" disabled>
                             
+                        </TabPane>
+                        <TabPane tab="UTC时间戳转换" key="4">                            
+                            <DateFormat/>
                         </TabPane>
                     </Tabs>
                 </div>

@@ -18,6 +18,8 @@ package com.huawei.esdk.common;
 public interface ConstVar {
     static final int SC_OK = 200;
     static final int SC_UNAUTH = 401;
+    static final int SC_UNFOUND = 404;
     static final int SC_TOKEN_IS_NULL = 11070001;
-    static final int SC_TOKEN_EXPIRED = 18000000;
+    //static final int SC_TOKEN_EXPIRED = 18000000;
+    static final int SC_TOKEN_TIMEOUT = 206010005;
 }

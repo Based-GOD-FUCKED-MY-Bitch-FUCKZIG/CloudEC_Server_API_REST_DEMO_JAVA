@@ -15,14 +15,11 @@
 package com.huawei.esdk.service.impl;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonParser;
 import com.huawei.esdk.common.MethodEnum;
-import com.huawei.esdk.common.RestRequest;
 import com.huawei.esdk.common.RestResponse;
 import com.huawei.esdk.service.ConfCtrlService;
 import com.huawei.esdk.utils.AuthedUtil;
 import com.huawei.esdk.utils.CheckPathUtil;
-import com.huawei.esdk.utils.HttpBuildUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +35,7 @@ public class ConfCtrlServiceImpl implements ConfCtrlService {
     Gson gson;
 
     @Override
-    public RestResponse getConfToken(String confId, String Password, String loginType) {
+    public RestResponse getConfToken(String confId, String Password,  String loginType) {
         String resourceUri = "/conferences/" + confId + "/token";
 
         Map<String,String> map = new HashMap<>();

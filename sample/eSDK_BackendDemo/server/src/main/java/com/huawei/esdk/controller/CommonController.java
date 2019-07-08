@@ -27,18 +27,34 @@ import javax.servlet.http.HttpServletResponse;
 public class CommonController {
 
     private static final JsonParser jsonParser = new JsonParser();
-
+    
+    /**
+    * @Description: 公共方法，处理response
+    * @Param: [response, httpResponse]
+    * @return: com.huawei.esdk.common.ResultInfo
+    * @Date: 2019/6/25
+    */
     public static ResultInfo handleResponse(RestResponse response, HttpServletResponse httpResponse){
         ResultInfo<Object> resultInfo = new ResultInfo<>();
         if (response == null){
             return ErroMessage.connectLoseError(resultInfo);
         }
 
-        log.info("response is:  " + response.toString());
+        log.info("handle response, response is:  " + response.toString());
+        int status = response.getHttpCode();
 
+        if (status == ConstVar.SC_UNAUTH)
+        {
+            return ErroMessage.setUnAuthed(httpResponse);
+        }
+
+        if (status == ConstVar.SC_UNFOUND)
+        {
+            return ErroMessage.connectUnFound(resultInfo);
+        }
         int returnCode = jsonParser.parse(response.getEntity()).getAsJsonObject().get("returnCode").getAsInt();
 
-        if(returnCode == ConstVar.SC_TOKEN_IS_NULL || returnCode == ConstVar.SC_TOKEN_EXPIRED){
+        if(returnCode == ConstVar.SC_TOKEN_IS_NULL || returnCode == ConstVar.SC_TOKEN_TIMEOUT){
             return ErroMessage.setUnAuthed(httpResponse);
         }
 

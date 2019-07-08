@@ -34,18 +34,46 @@ import GetHistoryConfList from '@/container/confControl/GetHistoryConfList'
 import GetHistoryConfInfo from '@/container/confControl/GetHistoryConfInfo'
 import GetHistoryConfCtlRecord from '@/container/confControl/GetHistoryConfCtlRecord'
 import GetHistoryConfAttendeeRecord from '@/container/confControl/GetHistoryConfAttendeeRecord'
+import queryUserMessage from '@/container/userControl/queryUserMessage'
+import ModUserMessage from '@/container/userControl/ModUserMessage'
+import getVerifycode from '@/container/userControl/getVerifycode'
+import checkVerifycode from '@/container/userControl/checkVerifycode'
+import modCommunication from '@/container/userControl/modCommunication'
 import { logout } from '@/utils/xhr'
+import UserCreateConf from '@/container/confManage/UserCreateConf'
+import CreateConfSuccess from '@/container/confManage/CreateConfSuccess'
+import JoinReservedConf from '@/container/confManage/JoinReservedConf'
+import MyConfs from '@/container/confManage/MyConfs'
+import MyRecords from '@/container/confManage/MyRecords'
+import setUserInfo from '@/container/userControl/setUserInfo'
 
 const { SubMenu }= Menu;
 const { Header, Content, Sider } = Layout;
-var height = window.innerHeight;
 class ConferenceSubLayout extends React.Component {
-    constructor () {
+    constructor () {      
       super();
       this.handleClick = this.handleClick.bind(this);
-      this.handleLogoutClick = this.handleLogoutClick.bind(this);
+      this.handleLogoutClick = this.handleLogoutClick.bind(this);   
+      
     }
     
+    componentDidMount() {
+      // 注册浏览器尺寸变化监听事件， 刷新桌面尺寸
+      window.addEventListener('resize', this.handleSize);
+      
+    }
+    
+    handleSize = () => {
+      this.setState({
+          deskHeight:window.innerHeight - 50,
+      });
+
+    }
+    componentWillUnmount() {
+      // 移除监听事件
+      window.removeEventListener('resize', this.handleSize);
+    }
+  
     rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
     
       state = {
@@ -53,7 +81,7 @@ class ConferenceSubLayout extends React.Component {
       };
 
     handleClick = (e) => {
-      console.log('click ', e);
+      //console.log('click ', e);
     }
 
     handleLogoutClick =
@@ -65,6 +93,8 @@ class ConferenceSubLayout extends React.Component {
     }
 
     onOpenChange = (openKeys) => {
+        //设置滚动条高度
+        this.setState({ deskHeight:window.innerHeight - 50 });
         const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
         if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
           this.setState({ openKeys });
@@ -80,7 +110,7 @@ class ConferenceSubLayout extends React.Component {
     return (
       <div className="conference-sub-layout">
         <Layout>
-            <Header className="header">
+            <Header className="header" style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
               <div className="logo" />
               <Menu onClick={this.handleClick} theme="dark" mode="horizontal" openKeys={this.state.openKeys} onOpenChange={this.onOpenChange} style={{ lineHeight : '64px'}}>
               <Menu.Item key="1">欢迎光临</Menu.Item>
@@ -88,17 +118,17 @@ class ConferenceSubLayout extends React.Component {
                   <Button onClick={this.handleLogoutClick} type = "primary" >注销</Button>
                 </Menu.Item>
               </Menu> 
-            </Header>
-            
-            <Content style={{ padding: '0 50px'}}>
-                <Layout style={{ padding: '24px 0',background:'#fff'}}>
-                  <Sider width={270} style={{ background: '#fff',overflow: 'auto',height:height}}>
+            </Header>            
+                <Layout style={{ padding: '24px 0',background:'#fff',marginTop:40}}>
+                  <Sider width={270} style={{ background: '#fff',overflow: 'auto',height:this.state.deskHeight,position: 'fixed', zIndex: 1}}>
                     <Menu onClick={this.handleClick} defauselectedkeys={['1']} mode="inline" openKeys={this.state.openKeys} onOpenChange={this.onOpenChange} style={{ width: 256 }}>
                       <Menu.Item key="0">首页</Menu.Item>
                       <SubMenu key="sub1" title={<span>场景适配</span>}>
-                        <SubMenu key="sub1_1" title={<span>用户管理</span>}>
-                              <Menu.Item key="1"><NavLink to={`${match.path}/login`}>用户登录</NavLink></Menu.Item> 
-                          </SubMenu>
+                          <Menu.Item key="1"><NavLink to={`${match.path}/user/createConf`}>预约会议</NavLink></Menu.Item> 
+                          <Menu.Item key="2"><NavLink to={`${match.path}/user/joinReservedConf`}>一键入会</NavLink></Menu.Item>
+                          <Menu.Item key="3"><NavLink to={`${match.path}/user/conference`}>我的会议</NavLink></Menu.Item>
+                          <Menu.Item key="4"><NavLink to={`${match.path}/user/records`}>我的录制</NavLink></Menu.Item>
+                          <Menu.Item key="5"><NavLink to={`${match.path}/user/userInfo`}>个人信息</NavLink></Menu.Item>
                       </SubMenu>
                       <SubMenu key="sub2" title={<span>API调用</span>}>
                         <SubMenu key="sub2_1" title={<span>会议管理</span>}>
@@ -134,42 +164,61 @@ class ConferenceSubLayout extends React.Component {
                             <Menu.Item key="2_23"><NavLink to={`${match.path}/historyConferences/hisConfCtlRecord`}>查询历史会议的会控记录信息</NavLink></Menu.Item>
                             <Menu.Item key="2_24"><NavLink to={`${match.path}/historyConferences/hisConfAttendeeRecord`}>查询历史会议的与会者记录信息</NavLink></Menu.Item>
                         </SubMenu>
+                        <SubMenu key="sub2_3" title={<span>企业用户</span>}>
+                            <Menu.Item key="2_3_1"><NavLink to={`${match.path}/queryUserMessage`}>用户查询自己的信息</NavLink></Menu.Item>
+                            <Menu.Item key="2_3_2"><NavLink to={`${match.path}/ModUserMessage`}>用户修改自己的信息</NavLink></Menu.Item>
+                            <Menu.Item key="2_3_3"><NavLink to={`${match.path}/getVerifycode`}>获取验证码</NavLink></Menu.Item>                           
+                            <Menu.Item key="2_3_4"><NavLink to={`${match.path}/checkVerifycode`}>校验手机和邮箱对应的验证码</NavLink></Menu.Item>
+                            <Menu.Item key="2_3_5"><NavLink to={`${match.path}/modCommunication`}>修改手机或邮箱</NavLink></Menu.Item>
+                        </SubMenu>
                       </SubMenu> 
                   </Menu>
                 </Sider>
-                <Switch>
-                  <Route path={`${match.path}/createConf`} exact component={CreateConf} />
-                  <Route path={`${match.path}/cancelConf`} component={CancelConf} />
-                  <Route path={`${match.path}/modifyConf`} component={ModifyConf} />
-                  <Route path={`${match.path}/conferences/confID/token`} component={GetConfToken}/>
-                  <Route path={`${match.path}/conferences/confID/forParticipant`} component={ForParticipant} />
-                  <Route path={`${match.path}/getConfList`} component={GetConfList} />
-                  <Route path={`${match.path}/participants/status`} component={ParticipantsStatus} />
-                  <Route path={`${match.path}/participants/phoneNum`} component={ParticipantsPhoneNum} />
-                  <Route path={`${match.path}/InviteParticipants`} component={InviteParticipants} />
-                  <Route path={`${match.path}/participants/mute`} component={participantsMute} />
-                  <Route path={`${match.path}/endConf`} component={endConf} />
-                  <Route path={`${match.path}/conferences/setMultiPicture`} component={setMultiPicture} />
-                  <Route path={`${match.path}/conferences/switchMode`} component={switchMode} />
-                  <Route path={`${match.path}/participants/role`} component={ParticipantsRole} />
-                  <Route path={`${match.path}/conferences/mute`} component={ConferencesMute} />
-                  <Route path={`${match.path}/conferences/lock`} component={ConferencesLock} />
-                  <Route path={`${match.path}/conferences/delRecordFile`} component={delRecordFile} />
-                  <Route path={`${match.path}/conferences/deleteRecordfiles`} component={deleteRecordfiles} />
-                  <Route path={`${match.path}/conferences/isRollcalled`} component={isRollcalled} />
-                  <Route path={`${match.path}/getConfInfo`} component={GetConfInfo} />
-                  <Route path={`${match.path}/renameSite`} component={RenameSite} />
-                  <Route path={`${match.path}/broadcast`} component={Broadcast} />
-                  <Route path={`${match.path}/setRecord`} component={SetRecord} />
-                  <Route path={`${match.path}/getRecordFiles`} component={GetRecordFiles} />
-                  <Route path={`${match.path}/getRecordFile`} component={GetRecordFile} />
-                  <Route path={`${match.path}/historyConferencesList`} component={GetHistoryConfList} />
-                  <Route path={`${match.path}/historyConferencesInfo`} component={GetHistoryConfInfo} />
-                  <Route path={`${match.path}/historyConferences/hisConfCtlRecord`} component={GetHistoryConfCtlRecord} />
-                  <Route path={`${match.path}/historyConferences/hisConfAttendeeRecord`} component={GetHistoryConfAttendeeRecord} />
-                </Switch>
-              </Layout>
-            </Content>  
+                <Content style={{ padding: '0 50px',marginLeft:220,zIndex: 0}}>
+                  <Switch>
+                    <Route path={`${match.path}/createConf`} exact component={CreateConf} />
+                    <Route path={`${match.path}/cancelConf`} component={CancelConf} />
+                    <Route path={`${match.path}/modifyConf`} component={ModifyConf} />
+                    <Route path={`${match.path}/conferences/confID/token`} component={GetConfToken}/>
+                    <Route path={`${match.path}/conferences/confID/forParticipant`} component={ForParticipant} />
+                    <Route path={`${match.path}/getConfList`} component={GetConfList} />
+                    <Route path={`${match.path}/participants/status`} component={ParticipantsStatus} />
+                    <Route path={`${match.path}/participants/phoneNum`} component={ParticipantsPhoneNum} />
+                    <Route path={`${match.path}/InviteParticipants`} component={InviteParticipants} />
+                    <Route path={`${match.path}/participants/mute`} component={participantsMute} />
+                    <Route path={`${match.path}/endConf`} component={endConf} />
+                    <Route path={`${match.path}/conferences/setMultiPicture`} component={setMultiPicture} />
+                    <Route path={`${match.path}/conferences/switchMode`} component={switchMode} />
+                    <Route path={`${match.path}/participants/role`} component={ParticipantsRole} />
+                    <Route path={`${match.path}/conferences/mute`} component={ConferencesMute} />
+                    <Route path={`${match.path}/conferences/lock`} component={ConferencesLock} />
+                    <Route path={`${match.path}/conferences/delRecordFile`} component={delRecordFile} />
+                    <Route path={`${match.path}/conferences/deleteRecordfiles`} component={deleteRecordfiles} />
+                    <Route path={`${match.path}/conferences/isRollcalled`} component={isRollcalled} />
+                    <Route path={`${match.path}/getConfInfo`} component={GetConfInfo} />
+                    <Route path={`${match.path}/renameSite`} component={RenameSite} />
+                    <Route path={`${match.path}/broadcast`} component={Broadcast} />
+                    <Route path={`${match.path}/setRecord`} component={SetRecord} />
+                    <Route path={`${match.path}/getRecordFiles`} component={GetRecordFiles} />
+                    <Route path={`${match.path}/getRecordFile`} component={GetRecordFile} />
+                    <Route path={`${match.path}/historyConferencesList`} component={GetHistoryConfList} />
+                    <Route path={`${match.path}/historyConferencesInfo`} component={GetHistoryConfInfo} />
+                    <Route path={`${match.path}/historyConferences/hisConfCtlRecord`} component={GetHistoryConfCtlRecord} />
+                    <Route path={`${match.path}/historyConferences/hisConfAttendeeRecord`} component={GetHistoryConfAttendeeRecord} />
+                    <Route path={`${match.path}/queryUserMessage`} component={queryUserMessage} />
+                    <Route path={`${match.path}/ModUserMessage`} component={ModUserMessage} />
+                    <Route path={`${match.path}/getVerifycode`} component={getVerifycode} />
+                    <Route path={`${match.path}/checkVerifycode`} component={checkVerifycode} />
+                    <Route path={`${match.path}/modCommunication`} component={modCommunication} />
+                    <Route path={`${match.path}/user/createConf`} exact component={UserCreateConf}/>
+                    <Route path={`${match.path}/user/joinReservedConf`} component={JoinReservedConf}/>
+                    <Route path={`${match.path}/user/conference`} component={MyConfs}/>
+                    <Route path={`${match.path}/user/records`} component={MyRecords}/>
+                    <Route path={`${match.path}/user/userInfo`} component={setUserInfo}/>
+                    <Route path={`${match.path}/user/createConf/:confID`} component={CreateConfSuccess}/>
+                  </Switch>
+                </Content>
+              </Layout>              
           </Layout>             
     </div>
     ); 

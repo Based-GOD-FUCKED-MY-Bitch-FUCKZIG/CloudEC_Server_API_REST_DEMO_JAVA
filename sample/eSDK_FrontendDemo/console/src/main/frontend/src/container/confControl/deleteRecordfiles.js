@@ -23,7 +23,7 @@ let contentType;
 let contentLength;
 let server;
 let proxyId;
-
+//批量删除录制文件API接口调用
 export default class deleteRecordfiles extends React.Component {
      constructor () {
         super();
@@ -46,15 +46,15 @@ export default class deleteRecordfiles extends React.Component {
         }; 
 
         let url = this.state.defaultURL + '?confUUIDs=' + this.state.confUUIDs;
-        console.log('url :' + url);
+        
         if(url ==='' || url === undefined){
             message.info("url不能为空!");
             return;
         } 
-
+        //批量删除录制文件
         del(url, headers).then((response)=>
         { 
-            console.log('response :' + JSON.stringify(response));
+            
             if(response.success) 
             {
                 displayValue = 'block';
@@ -64,7 +64,7 @@ export default class deleteRecordfiles extends React.Component {
                     paramsKey1:statusCodeAndresbody
                 });
                 
-                //发送消息后改变初始值
+                //获取响应后的结果
                 date=response.data.headers['Date'];
                 connection=response.data.headers['Connection'];
                 contentType=response.data.headers['Content-Type'];
@@ -112,7 +112,7 @@ export default class deleteRecordfiles extends React.Component {
                         <TabPane tab="Params" key="1">
                             <div style={{width:'100%'}}>
                                 <ul>
-                                    <li><Input style={{width:'20%'}} readOnly value="confUUIDs"/> : <Input style={{width:'60%'}} value={this.state.confUUIDs} onChange={({target:{value}})=>{confUUIDsVal=value; this.setState({confUUIDs:value})}}/></li>
+                                    <li><Input  style={{width:'20%' ,color: 'rgba(255,0,0,1)'}} readOnly value="confUUIDs"/> : <Input style={{width:'60%'}} value={this.state.confUUIDs} onChange={({target:{value}})=>{confUUIDsVal=value; this.setState({confUUIDs:value})}}/></li>
                                 </ul>
                             </div>
                         </TabPane>

@@ -26,8 +26,8 @@ let contentType;
 let contentLength;
 let server;
 let proxyId;
-
-export default class ModifyConf extends React.Component {
+//查询历史会议的与会者记录信息API接口调用
+export default class GetHistoryConfAttendeeRecord extends React.Component {
      constructor () {
         super();
         this.handleOnClick = this.handleOnClick.bind(this);
@@ -59,10 +59,9 @@ export default class ModifyConf extends React.Component {
             message.info("url不能为空!");
             return;
         }
-        
+        //查询历史会议的与会者记录信息
         get(url, headers,params).then((response)=>
         {    
-            //发送消息成功后改变初始值
             if(response.success) {
 
                 resAreaShow = 'block'; 
@@ -72,7 +71,7 @@ export default class ModifyConf extends React.Component {
                     paramsKey1:statusCodeAndresbody
                 });
 
-                //发送消息后改变初始值
+                //获取响应后的结果
                 date=response.data.headers['Date'];
                 connection=response.data.headers['Connection'];
                 contentType=response.data.headers['Content-Type'];
@@ -86,7 +85,7 @@ export default class ModifyConf extends React.Component {
                     responseBody:JSON.stringify(JSON.parse(response.data.entity),null,4),
                 }));
             }else{
-                message.info(response.msg);
+                message.error(response.msg);
             }
         })
         

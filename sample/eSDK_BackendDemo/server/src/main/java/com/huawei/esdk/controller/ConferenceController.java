@@ -33,12 +33,13 @@ public class ConferenceController {
     /**
     * @Description: 预约会议
     * @Param: [data, authorization, httpResponse]
-    * @return: com.huawei.test.common.ResultInfo
+    * @return: com.huawei.esdk.common.ResultInfo
     * @Date: 2019/4/17
     */
     @PostMapping("/conferences")
     public ResultInfo createConf(@RequestBody String data, @RequestHeader(name = "Authorization") String authorization,
                                  HttpServletResponse httpResponse){
+        log.info("enter createConf method");
         RestResponse response = conferenceManagerService.createConf(data,authorization);
 
         ResultInfo<Object> resultInfo = CommonController.handleResponse(response,httpResponse);
@@ -49,13 +50,13 @@ public class ConferenceController {
     /**
     * @Description: 取消预约会议
     * @Param: [conferenceid, authorization, httpResponse]
-    * @return: com.huawei.test.common.ResultInfo
+    * @return: com.huawei.esdk.common.ResultInfo
     * @Date: 2019/4/17
     */
     @DeleteMapping("/conferences/{conferenceid}" )
     public ResultInfo cancelConf(@PathVariable String conferenceid, @RequestHeader(name = "Authorization") String authorization,
                              HttpServletResponse httpResponse){
-
+        log.info("enter cancelConf method");
         RestResponse response = conferenceManagerService.delConf(conferenceid,authorization);
         ResultInfo<Object> resultInfo = CommonController.handleResponse(response,httpResponse);
         return resultInfo;
@@ -64,13 +65,14 @@ public class ConferenceController {
     /**
     * @Description: 修改预约会议
     * @Param: [conferenceid, data, authorization, httpResponse]
-    * @return: com.huawei.test.common.ResultInfo
+    * @return: com.huawei.esdk.common.ResultInfo
     * @Date: 2019/4/17
     */
     @PutMapping("/conferences/{conferenceid}")
     public ResultInfo modifyConf(@PathVariable(name = "conferenceid") String conferenceid,
                              @RequestBody String data, @RequestHeader(name = "Authorization") String authorization,
                                    HttpServletResponse httpResponse){
+        log.info("enter modifyConf method");
         RestResponse conf = conferenceManagerService.modifyConf(conferenceid, data, authorization);
         ResultInfo<Object> resultInfo = CommonController.handleResponse(conf,httpResponse);
 
@@ -80,12 +82,13 @@ public class ConferenceController {
     /**
     * @Description: 获取会议列表
     * @Param: [params, authorization, httpResponse]
-    * @return: com.huawei.test.common.ResultInfo
+    * @return: com.huawei.esdk.common.ResultInfo
     * @Date: 2019/4/17
     */
 	@GetMapping("/conferences")
     public ResultInfo getConfList(@RequestParam String params, @RequestHeader(name = "Authorization") String authorization,
                               HttpServletResponse httpResponse){
+        log.info("enter getConfList method");
         RestResponse response = conferenceManagerService.getConfList(params, authorization);
         ResultInfo<Object> resultInfo = CommonController.handleResponse(response,httpResponse);
 
@@ -95,7 +98,7 @@ public class ConferenceController {
      /**
      * @Description: 查询会议信息
      * @Param: [conferencesid, params, authorization, type, queryType, httpResponse]
-     * @return: com.huawei.test.common.ResultInfo
+     * @return: com.huawei.esdk.common.ResultInfo
      * @Date: 2019/4/17
      */
     @GetMapping("/conferences/{conferenceid}")
@@ -105,7 +108,25 @@ public class ConferenceController {
                                   @RequestHeader(name = "type") String type,
                                   @RequestHeader(name = "queryType") String queryType,
                                   HttpServletResponse httpResponse){
+        log.info("enter getConfInfo method");
         RestResponse response = conferenceManagerService.getConfInfo(conferencesid,params,authorization,type,queryType);
+        ResultInfo<Object> resultInfo = CommonController.handleResponse(response,httpResponse);
+
+        return resultInfo;
+    }
+
+    /**
+    * @Description: 获取会议鉴权，以实现一键入会
+    * @Param: [body, httpResponse]
+    * @return: com.huawei.esdk.common.ResultInfo
+    * @Date: 2019/5/10
+    */
+    @PostMapping("/joinReservedConf")
+    public ResultInfo joinReservedConf(@RequestBody String body,
+                                 HttpServletResponse httpResponse){
+        log.info("enter joinReservedConf method");
+        RestResponse response = conferenceManagerService.joinReservedConf(body);
+
         ResultInfo<Object> resultInfo = CommonController.handleResponse(response,httpResponse);
 
         return resultInfo;

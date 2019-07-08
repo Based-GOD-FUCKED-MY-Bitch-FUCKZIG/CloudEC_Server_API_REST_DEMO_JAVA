@@ -31,13 +31,13 @@ public class ErroMessage {
 
     public static ResultInfo connectLoseError(ResultInfo<Object> resultInfo){
         resultInfo.setSuccess(false);
-        resultInfo.setMsg("失去链接！");
+        resultInfo.setMsg("服务器发生错误，请检查服务器！");
         return resultInfo;
     }
 
-    public static ResultInfo userNotRight(ResultInfo<Object> resultInfo){
+    public static ResultInfo connectUnFound(ResultInfo<Object> resultInfo){
         resultInfo.setSuccess(false);
-        resultInfo.setMsg("用户名或者密码错误！");
+        resultInfo.setMsg("服务器无法响应(404)！");
         return resultInfo;
     }
 

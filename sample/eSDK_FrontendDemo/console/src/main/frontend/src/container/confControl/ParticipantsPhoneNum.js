@@ -14,7 +14,7 @@ const TabPane = Tabs.TabPane;
 let resBody = '';
 let displayValue = 'none';
 let statusCodeAndresbody = '';
-let defaultURLVal = "/conferences/{confId}/participants/{phoneNum}";
+let defaultURLVal = "/conferences/{confId}/participants/{number}";
 let confAuthVal = '';
 
 let date;
@@ -23,8 +23,8 @@ let contentType;
 let contentLength;
 let server;
 let proxyId;
-
-export default class CreateConf extends React.Component {
+//删除与会者API接口调用
+export default class ParticipantsPhoneNum extends React.Component {
     constructor () {
         super();
         this.handleOnClick = this.handleOnClick.bind(this);
@@ -50,7 +50,7 @@ export default class CreateConf extends React.Component {
             message.info("url不能为空!");
             return;
         }
-    
+        //删除与会者
         del(url, headers).then(
             (res) => {
                 if(res.success) {
@@ -62,7 +62,7 @@ export default class CreateConf extends React.Component {
                     paramsKey1:statusCodeAndresbody
                     });
 
-                    //发送消息后改变初始值
+                    //获取响应后的结果
                     date=res.data.headers['Date'];
                     connection=res.data.headers['Connection'];
                     contentType=res.data.headers['Content-Type'];
@@ -77,7 +77,7 @@ export default class CreateConf extends React.Component {
                         }
                     );  
                 }else{
-                    message.info(res.msg);
+                    message.error(res.msg);
                 }
             }
         )

@@ -27,7 +27,7 @@ let contentType;
 let contentLength;
 let server;
 let proxyId;
-
+//结束会议API接口调用
 export default class EndConf extends React.Component {
      constructor () {
         super();
@@ -63,7 +63,7 @@ export default class EndConf extends React.Component {
             message.info("url不能为空!");
             return;
         }
-
+        //结束会议
         put(url, {data}, headers).then((response)=>
         { 
             if(response.success) 
@@ -75,7 +75,7 @@ export default class EndConf extends React.Component {
                     paramsKey1:statusCodeAndresbody
                 });
                 
-                //发送消息后改变初始值
+                //获取响应后的结果
                 date=response.data.headers['Date'];
                 connection=response.data.headers['Connection'];
                 contentType=response.data.headers['Content-Type'];

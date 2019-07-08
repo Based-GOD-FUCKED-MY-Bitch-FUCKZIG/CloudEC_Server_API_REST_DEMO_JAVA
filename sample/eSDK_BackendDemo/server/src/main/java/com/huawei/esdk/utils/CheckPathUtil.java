@@ -14,10 +14,8 @@
  */
 package com.huawei.esdk.utils;
 
+import com.google.json.JsonSanitizer;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -171,7 +169,8 @@ public abstract class CheckPathUtil
     public static String jsonPathFormat(String path)
     {
         path = checkPath(path, jsonPathMap);
-        return path;
+        String jsonPath= JsonSanitizer.sanitize(path);
+        return jsonPath;
     }
 
     public static String filePathFormatWithEncode(String path, String charset)

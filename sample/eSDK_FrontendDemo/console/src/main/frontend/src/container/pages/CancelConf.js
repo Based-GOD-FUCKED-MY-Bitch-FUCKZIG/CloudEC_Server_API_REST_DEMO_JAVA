@@ -23,7 +23,7 @@ let contentType;
 let contentLength;
 let server;
 let proxyId;
-
+//取消预约会议API接口调用
 export default class ModifyConf extends React.Component {
      constructor () {
          super();
@@ -48,10 +48,10 @@ export default class ModifyConf extends React.Component {
             message.info("url不能为空!");
             return;
         }
-        
+        //取消预约会议
         del(url,headers).then((response)=>
         {
-            //发送消息成功后改变初始值
+            
             if(response.success) {
                 resAreaShow = 'block';
                 statusCodeAndresbody = 'Body [' + response.data.httpCode +']';
@@ -61,7 +61,7 @@ export default class ModifyConf extends React.Component {
                     paramsKey1:statusCodeAndresbody
                 });
 
-                //发送消息后改变初始值
+                //获取响应后的结果
                 date=response.data.headers['Date'];
                 connection=response.data.headers['Connection'];
                 contentType=response.data.headers['Content-Type'];
@@ -75,7 +75,7 @@ export default class ModifyConf extends React.Component {
                     responseBody:JSON.stringify(JSON.parse(response.data.entity),null,4),
                 }));
             }else{
-                message.info(response.msg);
+                message.error(response.msg);
             }
         })
         

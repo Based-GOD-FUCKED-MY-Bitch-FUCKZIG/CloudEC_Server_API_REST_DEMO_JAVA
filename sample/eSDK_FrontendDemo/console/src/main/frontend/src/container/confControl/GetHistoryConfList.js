@@ -6,6 +6,7 @@ import { Button,Input,Tabs,message } from 'antd'
 import { get } from '@/utils/request'
 import {UnControlled as CodeMirror} from 'react-codemirror2'
 import 'codemirror/mode/javascript/javascript'
+import DateFormat from '@/utils/dateFormatUtils'
 require ('@/component/ui/codemirror.css')
 require ('@/component/ui/jsonColor.css')
 
@@ -30,8 +31,8 @@ let contentType;
 let contentLength;
 let server;
 let proxyId;
-
-export default class ModifyConf extends React.Component {
+//查询历史会议列表API接口调用
+export default class GetHistoryConfList extends React.Component {
      constructor () {
          super();
         this.handleOnClick = this.handleOnClick.bind(this);
@@ -41,7 +42,7 @@ export default class ModifyConf extends React.Component {
             endDate:endDateVal,
             startDate:startDateVal,
             responseBody:resBody,  
-            accountID:accountIDVal,
+            userUUID:accountIDVal,
             pageIndex: pageIndexVal,
             pageSize: pageSizeVal,
             queryAll: queryAllVal,
@@ -51,19 +52,19 @@ export default class ModifyConf extends React.Component {
      }
     
     handleOnClick = (e) => {
-        const {accountID,pageIndex,pageSize,queryAll,condition,startDate,endDate,sortType} = this.state;
+        const {userUUID,pageIndex,pageSize,queryAll,condition,startDate,endDate,sortType} = this.state;
         
         let params = {
-            accountID,pageIndex,pageSize,queryAll,condition,startDate,endDate,sortType
+            userUUID,pageIndex,pageSize,queryAll,condition,startDate,endDate,sortType
         }
       
         let headers = {'Content-Type': 'application/json',
         'Accept': 'application/json',
         'Authorization': sessionStorage.getItem('access_token')}
-        
+        //查询历史会议列表
         get("/historyConferences", headers,params).then((response)=>
         {    
-            //发送消息成功后改变初始值
+
             if(response.success) {
 
                 resAreaShow = 'block';
@@ -72,10 +73,8 @@ export default class ModifyConf extends React.Component {
                     display:resAreaShow,
                     paramsKey1:statusCodeAndresbody
                 });
-            
-                console.log(response);
 
-                //发送消息后改变初始值
+                //获取响应后的结果
                 date=response.data.headers['Date'];
                 connection=response.data.headers['Connection'];
                 contentType=response.data.headers['Content-Type'];
@@ -89,12 +88,10 @@ export default class ModifyConf extends React.Component {
                     responseBody:resBody,
                 }));
             }else{
-                message.info(response.msg);
+                message.error(response.msg);
             }
         })
         
-       
-        // resAreaShow = 'block';
       }
     render() {
         const options={
@@ -128,13 +125,13 @@ export default class ModifyConf extends React.Component {
                         <TabPane tab="Params" key="1">
                             <div>
                                 <ul>
-                                <div style={{float:'left',height:'40px',width:'100%'}}><li><Input style={{width:'30%'}} readOnly value="accountID"/> : <Input style={{width:'60%'}} value={this.state.accountID} onChange={({target:{value}})=>{accountIDVal=value; this.setState({accountID:value})}}/></li></div>
+                                <div style={{float:'left',height:'40px',width:'100%'}}><li><Input style={{width:'30%'}} readOnly value="userUUID"/> : <Input style={{width:'60%'}} value={this.state.userUUID} onChange={({target:{value}})=>{accountIDVal=value; this.setState({userUUID:value})}}/></li></div>
                                 <div style={{float:'left',height:'40px',width:'100%'}}><li><Input style={{width:'30%'}} readOnly value="pageIndex"/> : <Input style={{width:'60%'}} value={this.state.pageIndex} onChange={({target:{value}})=>{pageIndexVal=value; this.setState({pageIndex:value})}}/></li></div>
                                 <div style={{float:'left',height:'40px',width:'100%'}}><li><Input style={{width:'30%'}} readOnly value="pageSize"/> : <Input style={{width:'60%'}} value={this.state.pageSize} onChange={({target:{value}})=>{pageSizeVal=value; this.setState({pageSize:value})}}/></li></div>
                                 <div style={{float:'left',height:'40px',width:'100%'}}><li><Input style={{width:'30%'}} readOnly value="queryAll"/> : <Input style={{width:'60%'}} value={this.state.queryAll} onChange={({target:{value}})=>{queryAllVal=value; this.setState({queryAll:value})}}/></li></div>
                                 <div style={{float:'left',height:'40px',width:'100%'}}><li><Input style={{width:'30%'}} readOnly value="condition"/> : <Input style={{width:'60%'}} value={this.state.condition} onChange={({target:{value}})=>{conditionVal=value; this.setState({condition:value})}}/></li></div>
-                                <div style={{float:'left',height:'40px',width:'100%'}}><li><Input style={{width:'30%'}} readOnly value="startDate"/> : <Input style={{width:'60%'}} value={this.state.startDate} onChange={({target:{value}})=>{startDateVal=value; this.setState({startDate:value})}}/></li></div>
-                                <div style={{float:'left',height:'40px',width:'100%'}}><li><Input style={{width:'30%'}} readOnly value="endDate"/> : <Input style={{width:'60%'}} value={this.state.endDate} onChange={({target:{value}})=>{endDateVal=value; this.setState({endDate:value})}}/></li></div>
+                                <div style={{float:'left',height:'40px',width:'100%'}}><li><Input style={{width:'30%',color: 'rgba(255,0,0,1)'}} readOnly value="startDate"/> : <Input style={{width:'60%'}} value={this.state.startDate} onChange={({target:{value}})=>{startDateVal=value; this.setState({startDate:value})}}/></li></div>
+                                <div style={{float:'left',height:'40px',width:'100%'}}><li><Input style={{width:'30%',color: 'rgba(255,0,0,1)'}} readOnly value="endDate"/> : <Input style={{width:'60%'}} value={this.state.endDate} onChange={({target:{value}})=>{endDateVal=value; this.setState({endDate:value})}}/></li></div>
                                 <div style={{float:'left',height:'40px',width:'100%'}}><li><Input style={{width:'30%'}} readOnly value="sortType"/> : <Input style={{width:'60%'}} value={this.state.sortType} onChange={({target:{value}})=>{sortTypeVal=value; this.setState({sortType:value})}}/></li></div>
                                 </ul>
                             </div>
@@ -150,6 +147,9 @@ export default class ModifyConf extends React.Component {
                         </TabPane>
                         <TabPane tab="Body" key="3" disabled>
                             
+                        </TabPane>
+                        <TabPane tab="UTC时间戳转换" key="4">                            
+                            <DateFormat/>
                         </TabPane>
                     </Tabs>
                 </div>

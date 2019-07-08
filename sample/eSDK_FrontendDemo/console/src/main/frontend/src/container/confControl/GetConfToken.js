@@ -24,8 +24,8 @@ let contentType;
 let contentLength;
 let server;
 let proxyId;
-
-export default class CreateConf extends React.Component {
+//通过会议ID/密码登录会议控制API接口调用
+export default class GetConfToken extends React.Component {
     constructor () {
         super();
         this.handleOnClick = this.handleOnClick.bind(this);
@@ -53,7 +53,7 @@ export default class CreateConf extends React.Component {
             message.info("url不能为空!");
             return;
         }
-    
+        //通过会议ID/密码登录会议控制
         get(url, headers).then(
             (res) => {   
                 if(res.success) {
@@ -65,7 +65,7 @@ export default class CreateConf extends React.Component {
                     paramsKey1:statusCodeAndresbody
                     });
 
-                    //发送消息后改变初始值
+                    //获取响应后的结果
                     date=res.data.headers['Date'];
                     connection=res.data.headers['Connection'];
                     contentType=res.data.headers['Content-Type'];
@@ -80,7 +80,7 @@ export default class CreateConf extends React.Component {
                         }
                     );  
                 }else{
-                    message.info(res.msg);
+                    message.error(res.msg);
                 }
             })
     }

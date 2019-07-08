@@ -53,19 +53,24 @@ public class HttpBuildUtil {
         if(params != null){
             restRequest.setParameters(params);
         }
+
+        log.info("restRequest is: " + restRequest.toString());
         return restRequest;
     }
 
     public static RestResponse sendMsg(String resourceUri, RestRequest restRequest) {
+        log.info("enter sendMsg");
         HttpHost host = getHttpHost();
         RestResponse response = null;
         try {
             response = HttpUtil.getInstance().sendMessage(host, resourceUri, restRequest);
+            log.info("response is: "+ response.toString());
         } catch (URISyntaxException e) {
             log.error("send msg uri syntax error:" + e.getMessage());
         } catch (IOException e) {
             log.error("send msg io error:" + e.getMessage());
         }
+        log.info("out sendMsg");
         return response;
     }
 }
