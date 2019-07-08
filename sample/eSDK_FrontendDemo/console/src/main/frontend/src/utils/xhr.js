@@ -9,6 +9,7 @@ export const getLoggedUser = () => {
       store.dispatch({
         type: 'GET_LOGGED_USER',
         logged: sessionStorage.getItem('access_token'),
+        adminType: sessionStorage.getItem('adminType'),
       })
     resolve()
     }, 500)
@@ -21,6 +22,7 @@ export const login = () => {
       store.dispatch({
         type: 'SET_LOGGED_USER',
         logged: sessionStorage.getItem('access_token'),
+        adminType: sessionStorage.getItem('adminType'),
       })
       resolve()
     }, 500)
@@ -36,6 +38,18 @@ export const logout = () => {
         logged: false
       })
       resolve()
+    }, 500)
+  })
+}
+
+export const forget = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      store.dispatch({
+        type: 'SET_USER_FORGET',
+        success: true,
+      })
+    resolve()
     }, 500)
   })
 }

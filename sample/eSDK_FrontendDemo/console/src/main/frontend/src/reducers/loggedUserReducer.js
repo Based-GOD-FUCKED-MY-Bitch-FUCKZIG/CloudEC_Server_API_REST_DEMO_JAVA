@@ -3,23 +3,24 @@
  */
 const initialState = {
     pending: true,
-    logged: false
-  }
+    logged: false,
+}
   
-  const loggedUserReducer = (state = initialState, action) => {
+const loggedUserReducer = (state = initialState, action) => {
     
     if (action.type === 'GET_LOGGED_USER') {
-      console.log('reducer log station:'+action.logged)
       return Object.assign({}, state, {
         pending: false,
-        logged: action.logged
+        logged: action.logged,
+        adminType: action.adminType,
       })
     }
     
     if (action.type === 'SET_LOGGED_USER') {
       return Object.assign({}, state, {
         pending: false,
-        logged: action.logged
+        logged: action.logged,
+        adminType: action.adminType,
       })
     }
     

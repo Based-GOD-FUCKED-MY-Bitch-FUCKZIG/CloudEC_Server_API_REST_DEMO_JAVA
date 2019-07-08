@@ -5,7 +5,7 @@ import { createStore, combineReducers } from 'redux'
 import loggedUserReducer from '@/reducers/loggedUserReducer'
 
 const reducers = combineReducers({
-  loggedUserState: loggedUserReducer
+  loggedUserState: loggedUserReducer,
 })
 
 const store = createStore(reducers)

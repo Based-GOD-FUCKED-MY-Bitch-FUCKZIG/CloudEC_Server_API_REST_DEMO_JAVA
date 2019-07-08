@@ -6,20 +6,19 @@ import { Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getLoggedUser } from '@/utils/xhr'
 
-class AuthorizedRoute extends React.Component {
+class AuthorizedUserRoute extends React.Component {
 
   componentWillMount() {
-    console.log("componentWillMount,start get logged user");
     getLoggedUser();
   }
 
   render() {
-    const { component: Component, pending, logged, ...rest } = this.props;
+    const { component: Component, pending, logged, adminType, ...rest } = this.props;
     return (
       <Route {...rest} render={props => {       
         if (pending) return <div>Loading...</div>
-        console.log('whether is logged:'+logged);
-        return logged
+        console.log('whether is AuthorizedUserRoute logged:'+logged);
+        return logged && (adminType === "2")
           ? <Component {...props} />
           : <Redirect to="/auth/login" />
       }} />
@@ -29,7 +28,8 @@ class AuthorizedRoute extends React.Component {
 
 const stateToProps = ({ loggedUserState }) => ({
   pending: loggedUserState.pending,
-  logged: loggedUserState.logged
+  logged: loggedUserState.logged,
+  adminType: loggedUserState.adminType,
 })
 
-export default connect(stateToProps)(AuthorizedRoute)
+export default connect(stateToProps)(AuthorizedUserRoute)

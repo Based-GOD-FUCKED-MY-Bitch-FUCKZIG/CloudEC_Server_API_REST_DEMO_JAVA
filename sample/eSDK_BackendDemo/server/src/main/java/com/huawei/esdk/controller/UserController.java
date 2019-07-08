@@ -45,6 +45,12 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	/**
+	* @Description: 访问index页面，前端入口
+	* @Param: [response, request]
+	* @return: void
+	* @Date: 2019/6/25
+	*/
 	@GetMapping("/")
 	public void index(HttpServletResponse response, HttpServletRequest request) {
 		try {
@@ -54,10 +60,17 @@ public class UserController {
 		}
 	}
 
+	/**
+	* @Description: 登录处理逻辑
+	* @Param: [info, authorization, httpResponse]
+	* @return: com.huawei.esdk.common.ResultInfo
+	* @Date: 2019/6/25
+	*/
 	@PostMapping("/user/login")
 	public ResultInfo login(@RequestBody String info,
 							@RequestHeader(name = "Authorization") String authorization,
 							HttpServletResponse httpResponse){
+		log.info("enter login method, received requestBody is:" + info);
 		String checkBody = CheckPathUtil.jsonPathFormat(info);
 		JsonObject infoObj = gson.fromJson(checkBody,JsonObject.class);
 		String username = infoObj.get("userName").getAsString();
@@ -67,26 +80,29 @@ public class UserController {
 		if (response == null){
 			return ErroMessage.connectLoseError(resultInfo);
 		}
+
 		String responseEntity = response.getEntity();
 
 		UserLoginResponse userInfo = gson.fromJson(responseEntity, UserLoginResponse.class);
 		UserLoginResponseToken data = userInfo.getData();
 
 		if(data == null){
-			return ErroMessage.userNotRight(resultInfo);
+			return ErroMessage.responseMessage(resultInfo,userInfo);
 		}
-
 		String accessToken = data.getAccessToken();
-		if( accessToken == null){
-			return ErroMessage.userNotRight(resultInfo);
-		}
 
 		String base64AccessToken = Base64.getEncoder().encodeToString(accessToken.getBytes(Charset.forName("utf8")));
 		httpResponse.setHeader("access-token","Basic " + base64AccessToken + "|" + username);
 		AuthedUtil.addAuth(username,"Basic " + base64AccessToken);
-		return ErroMessage.responseMessage(resultInfo,base64AccessToken);
+		return ErroMessage.responseMessage(resultInfo,userInfo);
 	}
 
+	/**
+	* @Description: 401重定向到登录页面
+	* @Param: [httpResponse]
+	* @return: com.huawei.esdk.common.ResultInfo
+	* @Date: 2019/6/25
+	*/
 	@RequestMapping(value = "/user/unauthed")
 	public ResultInfo unauthed(HttpServletResponse httpResponse){
 		ResultInfo result = ErroMessage.setUnAuthed(httpResponse);

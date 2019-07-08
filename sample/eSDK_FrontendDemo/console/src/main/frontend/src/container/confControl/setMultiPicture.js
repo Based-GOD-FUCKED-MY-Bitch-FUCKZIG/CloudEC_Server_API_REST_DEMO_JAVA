@@ -27,6 +27,7 @@ let contentType;
 let contentLength;
 let server;
 let proxyId;
+//设置多画面API接口调用
 export default class setMultiPicture extends React.Component {
      constructor () {
         super();
@@ -62,10 +63,10 @@ export default class setMultiPicture extends React.Component {
             message.info("url不能为空!");
             return;
         }
-        
+        //设置多画面
         put(url,{data},headers).then((response)=>
         { 
-            console.log('response :' + JSON.stringify(response));
+
             if(response.success) 
             {
                 displayValue = 'block';
@@ -75,7 +76,7 @@ export default class setMultiPicture extends React.Component {
                     paramsKey1:statusCodeAndresbody
                 });    
 
-                //发送消息后改变初始值
+                //获取响应后的结果
                 date=response.data.headers['Date'];
                 connection=response.data.headers['Connection'];
                 contentType=response.data.headers['Content-Type'];

@@ -10,8 +10,6 @@ export default function request (method, url, body, headers, params) {
     method = method.toUpperCase();
     if (method === 'GET' || method === 'DELETE') {
       body = undefined;
-    } else {
-      body = body && JSON.stringify(body);
     }
 
     return axios({
@@ -23,7 +21,7 @@ export default function request (method, url, body, headers, params) {
       params: {params}
     })
     .then((res) => {
-      console.log('response from server:'+res);
+      //console.log('response from server:'+res);
       const token = res.headers['access-token'];
       if (token) {
         const tokenAndUsername = token + '|' + body.userName;
@@ -33,28 +31,28 @@ export default function request (method, url, body, headers, params) {
       return res.data; 
     })
     .catch((error) => {
-      console.log('response from server:' + error);
+      console.log('response error from server:' + error);
       if(error.response === undefined || error.response === null){
-        message.info(`连接出错!`)
+        message.error(`连接出错!`)
         return Promise.reject('Request Incorect.');
       }else if(error.response.status === 401){
-        console.log('401 push login url');
-        message.info("token 失效，请重新登录！")
+        //console.log('401 push login url');
+        message.error("会话超时，请重新登录！")
         logout().then(
           () => {history.push('/auth');}
         );                
         return Promise.reject('Unauthorized.');
       }else if(error.response.status === 500){
-        message.info("失去链接！") 
+        message.error("服务器发生错误，请检查服务器!") 
         return Promise.reject('Server Error.');
       }else if(error.response.status === 404){
-        message.info("URL非法！")
+        message.error("URL非法！")
         return Promise.reject('URL Incorect.'); 
       }else if(error.response.status === 400){
-        message.info("Bad Request！")
+        message.error("Bad Request！")
         return Promise.reject('Request Incorect.');
       }else{
-        message.info(`连接出错 (${error.response.status})!`)
+        message.error(`连接出错 (${error.response.status})!`)
         return Promise.reject('Request Incorect.');
       }
     })

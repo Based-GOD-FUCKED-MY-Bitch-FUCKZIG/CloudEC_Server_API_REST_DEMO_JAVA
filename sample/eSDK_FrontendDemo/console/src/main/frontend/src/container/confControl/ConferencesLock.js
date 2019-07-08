@@ -26,8 +26,8 @@ let contentType;
 let contentLength;
 let server;
 let proxyId;
-
-export default class CreateConf extends React.Component {
+//锁定/解锁会议API接口调用
+export default class ConferencesLock extends React.Component {
     constructor () {
         super();
         this.handleOnClick = this.handleOnClick.bind(this);
@@ -61,10 +61,9 @@ export default class CreateConf extends React.Component {
         message.info("url不能为空!");
         return;
         } 
-
+      //锁定/解锁会议
       put(url, {data}, headers).then(
         (res) => {
-            console.log(res);
 
             if(res.success) {
                 displayValue = 'block';
@@ -75,7 +74,7 @@ export default class CreateConf extends React.Component {
                 paramsKey1:statusCodeAndresbody
                 });
 
-                //发送消息后改变初始值
+                //获取响应后的结果
                 date=res.data.headers['Date'];
                 connection=res.data.headers['Connection'];
                 contentType=res.data.headers['Content-Type'];
@@ -90,14 +89,13 @@ export default class CreateConf extends React.Component {
                     }
                 );  
             }else{
-                message.info(res.msg);
+                message.error(res.msg);
             }  
           
       })
     }
 
     handleOnChange = (instance) => {
-        console.log("value is:"+instance.getValue());
         reqBody=instance.getValue();
     }
 

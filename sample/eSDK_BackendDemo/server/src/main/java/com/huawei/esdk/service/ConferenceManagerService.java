@@ -26,4 +26,6 @@ public interface ConferenceManagerService {
  	RestResponse getConfList(String params,String authorization);
 
 	RestResponse getConfInfo(String conferencesid,String params,String authorization,String type,String queryType);
+
+    RestResponse joinReservedConf(String body);
 }

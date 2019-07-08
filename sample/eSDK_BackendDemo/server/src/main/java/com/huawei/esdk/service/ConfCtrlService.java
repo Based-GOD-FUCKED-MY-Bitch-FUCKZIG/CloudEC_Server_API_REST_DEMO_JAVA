@@ -64,4 +64,16 @@ public interface ConfCtrlService {
     RestResponse getHistoryConfCtlRecord(String confuuid, String params,String authorization,String language);
 
     RestResponse getHistoryConfAttendeeRecord(String confuuid, String params,String authorization,String language);
+
+    RestResponse getRealTimeInfo(String conferenceid, String confAuth);
+
+    RestResponse setDuration(String data, String conferenceid, String confAuth);
+
+    RestResponse getOnlineConfList(String params, String authorization);
+
+    RestResponse getOnlineConfInfo(String conferenceid, String params, String authorization, String type, String queryType);
+
+    RestResponse setChairView(String data, String conferenceid, String confAuth);
+
+    RestResponse setLive(String data, String conferenceid, String confAuth);
 }

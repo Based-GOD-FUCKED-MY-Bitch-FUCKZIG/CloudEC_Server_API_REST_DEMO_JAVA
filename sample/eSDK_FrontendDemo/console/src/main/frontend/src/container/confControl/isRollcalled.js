@@ -25,6 +25,7 @@ let contentType;
 let contentLength;
 let server;
 let proxyId;
+//点名会场API接口调用
 export default class isRollcalled extends React.Component {
      constructor () {
         super();
@@ -55,10 +56,10 @@ export default class isRollcalled extends React.Component {
             message.info("url不能为空!");
             return;
         }
-
+        //点名会场
         put(url, null, headers).then((response)=>
         { 
-            console.log('response :' + JSON.stringify(response));
+
             if(response.success) 
             {
                 displayValue = 'block';
@@ -68,7 +69,7 @@ export default class isRollcalled extends React.Component {
                     paramsKey1:statusCodeAndresbody
                 });
                 
-                //发送消息后改变初始值
+                //获取响应后的结果
                 date=response.data.headers['Date'];
                 connection=response.data.headers['Connection'];
                 contentType=response.data.headers['Content-Type'];

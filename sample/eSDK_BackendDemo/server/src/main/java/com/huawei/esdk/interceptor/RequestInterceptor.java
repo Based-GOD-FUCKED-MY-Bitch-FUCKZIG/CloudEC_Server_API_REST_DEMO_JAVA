@@ -27,9 +27,10 @@ public class RequestInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        log.info("enter RequestInterceptor preHandle");
         String auth = request.getHeader("Authorization");
         if (auth == null){
-            log.error("url redirect: " + request.getContextPath() + "/user/unauthed");
+            log.error("auth is null, url redirect to: " + request.getContextPath() + "/user/unauthed");
             response.sendRedirect(request.getContextPath() + "/user/unauthed");
             return false;
         }
@@ -37,7 +38,7 @@ public class RequestInterceptor implements HandlerInterceptor {
         String[] auths = auth.split("\\|");
         log.info("auth is :" + AuthedUtil.getAuth(auths[1]));
         if(!auths[0].equals(AuthedUtil.getAuth(auths[1]))){
-            log.error("redirect to: "+request.getContextPath() + "/user/unauthed");
+            log.error("auth is expired, url redirect to: "+request.getContextPath() + "/user/unauthed");
             response.sendRedirect(request.getContextPath() + "/user/unauthed");
             return false;
         }

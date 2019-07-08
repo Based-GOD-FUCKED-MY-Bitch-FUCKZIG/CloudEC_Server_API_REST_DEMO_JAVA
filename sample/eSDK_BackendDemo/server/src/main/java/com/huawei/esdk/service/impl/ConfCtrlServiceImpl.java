@@ -15,14 +15,11 @@
 package com.huawei.esdk.service.impl;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonParser;
 import com.huawei.esdk.common.MethodEnum;
-import com.huawei.esdk.common.RestRequest;
 import com.huawei.esdk.common.RestResponse;
 import com.huawei.esdk.service.ConfCtrlService;
 import com.huawei.esdk.utils.AuthedUtil;
 import com.huawei.esdk.utils.CheckPathUtil;
-import com.huawei.esdk.utils.HttpBuildUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +35,7 @@ public class ConfCtrlServiceImpl implements ConfCtrlService {
     Gson gson;
 
     @Override
-    public RestResponse getConfToken(String confId, String Password, String loginType) {
+    public RestResponse getConfToken(String confId, String Password,  String loginType) {
         String resourceUri = "/conferences/" + confId + "/token";
 
         Map<String,String> map = new HashMap<>();
@@ -296,6 +293,73 @@ public class ConfCtrlServiceImpl implements ConfCtrlService {
         String checkParams = CheckPathUtil.jsonPathFormat(params);
         Map parameters = gson.fromJson(checkParams, Map.class);
         RestResponse response = CommonService.handleRequest(MethodEnum.GET.getValue(),resourceUri,map,null,parameters);
+
+        return response;
+    }
+
+    @Override
+    public RestResponse getRealTimeInfo(String conferenceid, String confAuth) {
+        String resourceUri = "/cms/open/rest/confctl/" + conferenceid + "/realTimeInfo";
+
+        RestResponse response = CommonService.handleRequest(MethodEnum.GET.getValue(),resourceUri,
+                CommonService.handleConfAuthHeaders(confAuth),null,null);
+
+        return response;
+    }
+
+    @Override
+    public RestResponse setDuration(String data, String conferenceid, String confAuth) {
+        String resourceUri = "/conferences/"+ conferenceid +"/duration";
+
+        RestResponse response = CommonService.handleRequest(MethodEnum.PUT.getValue(),resourceUri,
+                CommonService.handleConfAuthHeaders(confAuth),data,null);
+
+        return response;
+    }
+
+    @Override
+    public RestResponse getOnlineConfList(String params, String authorization) {
+        String resourceUri = "/conferences/online";
+
+        String checkParams = CheckPathUtil.jsonPathFormat(params);
+        Map parameters = gson.fromJson(checkParams, Map.class);
+        RestResponse response = CommonService.handleRequest(MethodEnum.GET.getValue(),resourceUri,
+                CommonService.handleAuthHeaders(authorization),null,parameters);
+
+        return response;
+    }
+
+    @Override
+    public RestResponse getOnlineConfInfo(String conferenceid, String params, String authorization, String type, String queryType) {
+        String resourceUri = "/conferences/" + conferenceid + "/online";
+
+        Map<String,String> map = CommonService.handleAuthHeaders(authorization);
+        map.put("type",type);
+        map.put("queryType", queryType);
+
+        String checkParams = CheckPathUtil.jsonPathFormat(params);
+        Map parameters = gson.fromJson(checkParams, Map.class);
+        RestResponse response = CommonService.handleRequest(MethodEnum.GET.getValue(),resourceUri,map,null,parameters);
+
+        return response;
+    }
+
+    @Override
+    public RestResponse setChairView(String data, String conferenceid, String confAuth) {
+        String resourceUri = "/conferences/"+ conferenceid +"/chairView";
+
+        RestResponse response = CommonService.handleRequest(MethodEnum.PUT.getValue(),resourceUri,
+                CommonService.handleConfAuthHeaders(confAuth),data,null);
+
+        return response;
+    }
+
+    @Override
+    public RestResponse setLive(String data, String conferenceid, String confAuth) {
+        String resourceUri = "/conferences/"+ conferenceid +"/online";
+
+        RestResponse response = CommonService.handleRequest(MethodEnum.PUT.getValue(),resourceUri,
+                CommonService.handleConfAuthHeaders(confAuth),data,null);
 
         return response;
     }

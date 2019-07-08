@@ -28,6 +28,11 @@ public class AddInterceptor extends WebMvcConfigurerAdapter{
                 .excludePathPatterns("/")
                 .excludePathPatterns("/build/**")
                 .excludePathPatterns("/user/login")
+                .excludePathPatterns("/slideverifycode/send")
+                .excludePathPatterns("/slideverifycode/check")
+                .excludePathPatterns("/verifycode/send")
+                .excludePathPatterns("/verifycode/check")
+                .excludePathPatterns("/password/reset")
                 .excludePathPatterns("/user/unauthed");
     }
 }

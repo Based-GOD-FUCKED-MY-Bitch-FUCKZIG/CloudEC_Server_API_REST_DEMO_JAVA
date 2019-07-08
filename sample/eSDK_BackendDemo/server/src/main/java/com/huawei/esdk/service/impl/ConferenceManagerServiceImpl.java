@@ -15,16 +15,15 @@
 package com.huawei.esdk.service.impl;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.huawei.esdk.common.MethodEnum;
-import com.huawei.esdk.common.RestRequest;
 import com.huawei.esdk.common.RestResponse;
 import com.huawei.esdk.service.ConferenceManagerService;
 import com.huawei.esdk.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -89,6 +88,23 @@ public class ConferenceManagerServiceImpl implements ConferenceManagerService {
         Map parameters = gson.fromJson(checkParams, Map.class);
         RestResponse response = CommonService.handleRequest(MethodEnum.GET.getValue(),resourceUri,
                 map,null,parameters);
+        return response;
+    }
+
+    @Override
+    public RestResponse joinReservedConf(String body) {
+        String checkBody = CheckPathUtil.jsonPathFormat(body);
+        JsonObject jsonObject = jsonParser.parse(checkBody).getAsJsonObject();
+        String conferenceID = jsonObject.get("conferenceID").getAsString();
+        String confPwd = jsonObject.get("confPwd").getAsString();
+
+        StringBuilder sbr1 = new StringBuilder();
+        sbr1.append("/conferences/").append(conferenceID).append("/auth");
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("password", confPwd);
+
+        RestResponse response = CommonService.handleRequest(MethodEnum.GET.getValue(),sbr1.toString(),headers,null,null);
         return response;
     }
 

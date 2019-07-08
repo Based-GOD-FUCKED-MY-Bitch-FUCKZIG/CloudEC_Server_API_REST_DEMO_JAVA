@@ -31,7 +31,7 @@ let contentType;
 let contentLength;
 let server;
 let proxyId;
-
+//查询会议列表API接口调用
 export default class ModifyConf extends React.Component {
      constructor () {
          super();
@@ -41,7 +41,7 @@ export default class ModifyConf extends React.Component {
             httpCode:statusCode,
             responseBody:resBody,  
             paramsKey1:statusCodeAndresbody,
-            accountID:accountIDCopy,
+            userUUID:accountIDCopy,
             pageIndex:pageIndexCopy,
             pageSize:pageSizeCopy,
             queryAll:queryAllCopy,
@@ -53,19 +53,19 @@ export default class ModifyConf extends React.Component {
      }
     
     handleOnClick = (e) => {
-        const {accountID,pageIndex,pageSize,queryAll,status,condition,queryConfMode,sortType} = this.state;
+        const {userUUID,pageIndex,pageSize,queryAll,status,condition,queryConfMode,sortType} = this.state;
         
         let params = {
-            accountID,pageIndex,pageSize,queryAll,status,condition,queryConfMode,sortType
+            userUUID,pageIndex,pageSize,queryAll,status,condition,queryConfMode,sortType
         }
       
         let headers = {'Content-Type': 'application/json',
         'Accept': 'application/json',
         'Authorization': sessionStorage.getItem('access_token')}
-        
+        //查询会议列表
         get("/conferences", headers,params).then((response)=>
         {    
-            //发送消息成功后改变初始值
+            
             if(response.success) {
                 resAreaShow = 'block';
                 statusCodeAndresbody = 'Body [' + response.data.httpCode +']';
@@ -74,7 +74,7 @@ export default class ModifyConf extends React.Component {
                     paramsKey1:statusCodeAndresbody
                 });
 
-                 //发送消息后改变初始值
+                //获取响应后的结果
                 date=response.data.headers['Date'];
                 connection=response.data.headers['Connection'];
                 contentType=response.data.headers['Content-Type'];
@@ -88,7 +88,7 @@ export default class ModifyConf extends React.Component {
                     responseBody:JSON.stringify(JSON.parse(response.data.entity),null,4),
                 }));
             }else{
-                message.info(response.msg);
+                message.error(response.msg);
             }
         })
         
@@ -127,7 +127,7 @@ export default class ModifyConf extends React.Component {
                         <TabPane tab="Params" key="2">
                             <div>
                                 <ul>
-                                <div style={{float:'left',height:'40px',width:'100%'}}><li><Input style={{width:'30%'}} readOnly value="accountID"/> : <Input style={{width:'60%'}} value={this.state.accountID} onChange={({target:{value}})=>{accountIDCopy=value;this.setState({accountID:value})}}/></li></div>
+                                <div style={{float:'left',height:'40px',width:'100%'}}><li><Input style={{width:'30%'}} readOnly value="userUUID"/> : <Input style={{width:'60%'}} value={this.state.userUUID} onChange={({target:{value}})=>{accountIDCopy=value;this.setState({userUUID:value})}}/></li></div>
                                 <div style={{float:'left',height:'40px',width:'100%'}}><li><Input style={{width:'30%'}} readOnly value="pageIndex"/> : <Input style={{width:'60%'}} value={this.state.pageIndex} onChange={({target:{value}})=>{pageIndexCopy=value;this.setState({pageIndex:value})}}/></li></div>
                                 <div style={{float:'left',height:'40px',width:'100%'}}><li><Input style={{width:'30%'}} readOnly value="pageSize"/> : <Input style={{width:'60%'}} value={this.state.pageSize} onChange={({target:{value}})=>{pageSizeCopy=value;this.setState({pageSize:value})}}/></li></div>
                                 <div style={{float:'left',height:'40px',width:'100%'}}><li><Input style={{width:'30%'}} readOnly value="queryAll"/> : <Input style={{width:'60%'}} value={this.state.queryAll} onChange={({target:{value}})=>{queryAllCopy=value;this.setState({queryAll:value})}}/></li></div>
