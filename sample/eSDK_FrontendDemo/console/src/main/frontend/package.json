@@ -13,8 +13,18 @@
     "react-redux": "^7.0.3",
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.0",
+<<<<<<< HEAD
     "styled-components": "^4.1.2",
     "i18next": "^15.0.4",
+=======
+<<<<<<< HEAD
+    "styled-components": "^4.1.2",
+    "i18next": "^15.0.4",
+=======
+    "styled-components": "^4.2.0",
+    "i18next": "^11.6.0",
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
     "i18next-xhr-backend": "^1.5.1"
   },
   "devDependencies": {

@@ -18,11 +18,27 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+<<<<<<< HEAD
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
 @Slf4j
 public class SpringBootApp extends SpringBootServletInitializer {
+=======
+<<<<<<< HEAD
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+
+@SpringBootApplication
+@Slf4j
+public class SpringBootApp extends SpringBootServletInitializer {
+=======
+import org.springframework.boot.web.support.SpringBootServletInitializer;
+
+@SpringBootApplication
+@Slf4j
+public class SpringBootApp extends SpringBootServletInitializer{
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
 
 	public static void main(String[] args) {
 		log.debug("程序开始了...");

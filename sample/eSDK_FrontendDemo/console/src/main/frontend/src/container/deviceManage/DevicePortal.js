@@ -224,7 +224,14 @@ class DevicePortal extends React.Component {
             {
                 title: '名称',
                 dataIndex: 'name',
+<<<<<<< HEAD
                 key: 'name',
+=======
+<<<<<<< HEAD
+                key: 'name',
+=======
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
                 width: 100,
                 fixed: 'left',
                 render:(text)=>{
@@ -234,7 +241,14 @@ class DevicePortal extends React.Component {
             {
                 title: '部门',
                 dataIndex: 'deptNamePath',
+<<<<<<< HEAD
                 key: 'deptNamePath',
+=======
+<<<<<<< HEAD
+                key: 'deptNamePath',
+=======
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
                 render:(text)=>{
                     const deptNameePathSplit = text.split("#")
                     var deptNames = deptNameePathSplit[deptNameePathSplit.length-1]
@@ -247,17 +261,38 @@ class DevicePortal extends React.Component {
             {
                 title: '号码',
                 dataIndex: 'number',
+<<<<<<< HEAD
                 key: 'number',
+=======
+<<<<<<< HEAD
+                key: 'number',
+=======
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
             },
             {
                 title: '设备型号',
                 dataIndex: 'model',
+<<<<<<< HEAD
                 key: 'model',
+=======
+<<<<<<< HEAD
+                key: 'model',
+=======
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
             },
             {
                 title: '状态',
                 dataIndex: 'status',
+<<<<<<< HEAD
                 key: 'status',
+=======
+<<<<<<< HEAD
+                key: 'status',
+=======
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
                 render:(text)=>{
                     if(text === 0){
                         return "启用"
@@ -269,7 +304,14 @@ class DevicePortal extends React.Component {
             {
                 title: '操作',
                 dataIndex: 'operator',
+<<<<<<< HEAD
                 key: 'operator',
+=======
+<<<<<<< HEAD
+                key: 'operator',
+=======
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
                 fixed: 'right',
                 width: 100,
                 render:(text,record)=>(

@@ -11,6 +11,13 @@ import i18n from '@/locales';
 let userName;//获取用户的名称
 let flag = 1;//判断修改手机/邮箱标志位，flag=1为修改手机，flag=0为修改邮箱
 let verifyWays;//获取用户选择邮箱还是手机
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+let clearInputValue;//清空表单的数据
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
 let countdownShow;//原手机/邮箱倒计时显示
 let countdownTimeShow;//新手机/邮箱倒计时显示
 
@@ -298,12 +305,26 @@ class setUserInfo extends React.Component {
     //取消原手机/邮箱的界面
     handleCancelModify = () =>
     {
+<<<<<<< HEAD
       this.props.form.resetFields();
+=======
+<<<<<<< HEAD
+      this.props.form.resetFields();
+=======
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
       clearInterval(countdownShow);
       this.setState({
         visibleModify:false,
         disbledGetVerifyCode:null,
       });
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+      clearInputValue = setTimeout(this.props.form.resetFields,500);
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
     }
     //校验原手机/邮箱的验证码
     handleNextModify = () =>
@@ -359,6 +380,10 @@ class setUserInfo extends React.Component {
             });
          })
       })
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
     }
     
     // componentWillUnmount(){
@@ -366,6 +391,20 @@ class setUserInfo extends React.Component {
     // //     return
     // // }
     // };
+<<<<<<< HEAD
+=======
+=======
+      //clearInputValue = setTimeout(this.props.form.resetFields,500); 
+    }
+    
+    componentWillUnmount(){
+      clearTimeout(clearInputValue)
+    //   this.setState = (state, callback) => {
+    //     return
+    // }
+    };
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
 
     //进入新的手机/邮箱界面，返回到上一步
     PreviousModify = () =>{
@@ -381,7 +420,15 @@ class setUserInfo extends React.Component {
         visibleNewModify:false,
         disbledNewGetVerifyCode:null,
       });
+<<<<<<< HEAD
       this.props.form.resetFields();
+=======
+<<<<<<< HEAD
+      this.props.form.resetFields();
+=======
+      clearInputValue = setTimeout(this.props.form.resetFields,500);
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
     }
     //新的手机/邮箱获取验证码
     newGetVerifyCode = () =>
@@ -534,7 +581,15 @@ class setUserInfo extends React.Component {
       this.setState({
           visibleModPwd:false
       });
+<<<<<<< HEAD
       this.props.form.resetFields();
+=======
+<<<<<<< HEAD
+      this.props.form.resetFields();
+=======
+      clearInputValue = setTimeout(this.props.form.resetFields,500);
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
     }
     //修改密码
     handleModifyPwd = () =>
@@ -627,6 +682,10 @@ class setUserInfo extends React.Component {
               </InfoItem> 
                ) 
             }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
               <InfoItem label={"账号"}>
                   <ResultText>{this.state.userAccount}</ResultText> 
               </InfoItem> 
@@ -746,6 +805,130 @@ class setUserInfo extends React.Component {
               <InfoItem label={"企业管理员"}>
                   <ResultText>{ "姓名("+ this.state.adminName+ ") ,手机(" +(this.state.adminPhone === null?"无":this.state.adminPhone)+"),邮箱(" + (this.state.adminEmail=== null?"无":this.state.adminEmail)+")"}</ResultText>
               </InfoItem>
+<<<<<<< HEAD
+=======
+=======
+            <InfoItem label={"账号"}>
+                <ResultText>{this.state.userAccount}</ResultText> 
+            </InfoItem> 
+            <InfoItem label={"手机"}>
+                <ResultText>{this.state.phone}</ResultText>
+                <SingleOperateWrapper>
+                  <Link onClick={this.showModifyModal.bind(this,1)}>修改</Link>
+                </SingleOperateWrapper>
+            </InfoItem>
+            <InfoItem label={"邮箱"}>
+                <ResultText>{this.state.email}</ResultText>
+                <SingleOperateWrapper>
+                  <Link onClick={this.showModifyModal.bind(this,0)}>修改</Link>
+                </SingleOperateWrapper>
+            </InfoItem>
+            <Modal title={flag === 1?"修改手机":"修改邮箱"}  visible={this.state.visibleModify} onCancel={this.handleCancelModify} footer={null} style={{width:600}} maskClosable={false} keyboard={false} autoComplete="off">
+                <InfoItem label={"验证方式"} >
+                {getFieldDecorator('verifyWays', {
+                   initialValue:this.state.verifyWay,
+                   rules: [{ required: true}],
+                })(
+                    <Radio.Group style={{width:400}}>
+                        <Radio value="phone" disabled={this.state.disableOldPhone}>原注册手机</Radio>
+                        <Radio value="email" disabled={this.state.disableOldEmail}>原注册邮箱</Radio>
+                    </Radio.Group>
+                )}
+                </InfoItem>
+                <InfoItem label="验证码" >
+                    {getFieldDecorator('verifyCode', {
+                        rules: [{ required: true, message:"请输入验证码"}],
+                    })(
+                      <div>
+                        {!this.state.disbledGetVerifyCode ? (<Search  style={{ width:300, fontSize: 13 }}  enterButton="获取" onSearch={this.getVerifyCode}/>):(
+                            <Search  style={{ width:300, fontSize: 13 }}  enterButton={this.state.countdown+"秒后重新获取"} /> 
+                        )}
+                      </div>
+                    )}
+                </InfoItem>
+                <InfoItem  wrapperCol={{ span: 16 , offset:8}}>
+                    <Button type="primary" htmlType="submit" onClick={this.handleNextModify}>下一步</Button>
+                    <Button style={{ marginLeft: 24 }} onClick={this.handleCancelModify}>取消</Button>
+                </InfoItem>
+            </Modal>
+            <Modal title={flag === 1?"修改手机":"修改邮箱"} visible={this.state.visibleNewModify} onCancel={this.CancelModify} footer={null} maskClosable={false} keyboard={false} autoComplete="off">
+                <InfoItem label={flag === 1?"新手机号":"新邮箱"} autoComplete="off">
+                {getFieldDecorator('newCommunications', {
+                   rules: [{ required: this.state.visibleNewModify,message : flag === 1?"请输入新手机号":"请输入新邮箱"}],
+                })(
+                  flag === 1?(<Input addonBefore={"+86(中国大陆)"} style={{ width:300, fontSize: 13 }}/>):(
+                    <Input style={{ width:300, fontSize: 13 }}/>
+                  )
+                )}
+                </InfoItem>
+                <InfoItem label="验证码" >
+                    {getFieldDecorator('newVerifyCode', {
+                         rules: [{ message:"请输入验证码"}],
+                        // rules: [{ required: this.state.visibleNewModify, message:"请输入验证码"}],
+                    })(
+                      <div>
+                        {!this.state.disbledNewGetVerifyCode ? (<Search  style={{ width:300, fontSize: 13 }}  enterButton="获取" onSearch={this.newGetVerifyCode}/>):(
+                            <Search  style={{ width:300, fontSize: 13 }}  enterButton={this.state.countdownTime +"秒后重新获取"} /> 
+                        )}
+                      </div>
+                    )}
+                </InfoItem>
+                <InfoItem  wrapperCol={{ span: 16 , offset:8}}>
+                    <Button type="primary" htmlType="submit" onClick={this.PreviousModify}>上一步</Button>
+                    <Button type="primary" htmlType="submit" style={{ marginLeft: 16 }} onClick={this.NextModify}>完成</Button>
+                    <Button style={{ marginLeft: 24 }} onClick={this.CancelModify}>取消</Button>
+                </InfoItem>
+            </Modal>
+            <InfoItem label={"号码"}>
+                <ResultText>{this.state.sipNum}</ResultText> 
+            </InfoItem>
+            <InfoItem label={"登录密码"}>
+                <ResultText>*******</ResultText>
+                <SingleOperateWrapper>
+                  <Link onClick={this.ModifyPWDModal}>修改</Link>
+                </SingleOperateWrapper> 
+            </InfoItem>
+            <Modal title="修改密码" visible={this.state.visibleModPwd}  onCancel={this.handleCancelModifyPwd} footer={null} maskClosable={false} keyboard={false}>
+                <InfoItem label={"旧密码"}>
+                {getFieldDecorator('oldPwd', {
+                   rules: [{ required: this.state.visibleModPwd, message:"请输入旧密码"}],
+                })(
+                    <InputName type="password" placeholder="请输入旧密码"/>
+                )}
+                </InfoItem>
+                <InfoItem label="新密码" >
+                    {getFieldDecorator('newPwd', {
+                        rules: [{ required: this.state.visibleModPwd, message:"请输入新密码"}],
+                    })(
+                        <InputName type="password" placeholder="请输入新密码"/>
+                    )}
+                </InfoItem>
+                <InfoItem label="确定密码" >
+                    {getFieldDecorator('confirmPwd', {
+                        rules: [{ required: this.state.visibleModPwd, message:"请输入确定密码"}],
+                    })(
+                        <InputName type="password" placeholder="请输入确定密码"/>
+                    )}
+                </InfoItem>
+                <InfoItem  wrapperCol={{ span: 8 , offset:8}}>
+                    <Button type="primary" htmlType="submit" onClick={this.handleModifyPwd}>确定</Button>
+                    <Button style={{ marginLeft: 24 }} onClick={this.handleCancelModifyPwd}>取消</Button>
+                </InfoItem>
+            </Modal>
+            <InfoItem label={"个人会议ID"}>
+                <ResultText>{this.state.vmrId}</ResultText> 
+            </InfoItem>  
+            <InfoItem label={"所在企业"}>
+                <ResultText>{this.state.corpName}</ResultText> 
+            </InfoItem>
+            <InfoItem label={"部门"}>
+                <ResultText>{this.state.deptName}</ResultText> 
+            </InfoItem>
+            <InfoItem label={"企业管理员"}>
+                <ResultText>{ "姓名("+ this.state.adminName+ ") ,手机(" +(this.state.adminPhone === null?"无":this.state.adminPhone)+"),邮箱(" + (this.state.adminEmail=== null?"无":this.state.adminEmail)+")"}</ResultText>
+            </InfoItem>
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
             </FormWrapper>
             </Card>
             </div>

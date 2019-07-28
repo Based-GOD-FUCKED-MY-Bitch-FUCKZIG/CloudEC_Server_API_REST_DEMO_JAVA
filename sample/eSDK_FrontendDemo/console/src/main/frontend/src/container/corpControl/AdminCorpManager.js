@@ -304,7 +304,15 @@ class AdminCorpManager extends React.Component {
         return true;
     }
     render(){
+<<<<<<< HEAD
         //const { selectedKeys, ...args } = this.props;  
+=======
+<<<<<<< HEAD
+        //const { selectedKeys, ...args } = this.props;  
+=======
+        const { selectedKeys, ...args } = this.props;  
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
         const columns = [
             {
                 title: '姓名',

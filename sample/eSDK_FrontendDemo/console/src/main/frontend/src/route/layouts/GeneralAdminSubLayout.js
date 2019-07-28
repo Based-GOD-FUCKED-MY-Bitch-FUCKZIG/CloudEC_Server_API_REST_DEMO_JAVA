@@ -68,12 +68,21 @@ import Broadcast from '@/container/confControl/Broadcast';
 import SetRecord from '@/container/confControl/SetRecord';
 import GetRecordFiles from '@/container/confControl/GetRecordFiles';
 import GetRecordFile from '@/container/confControl/GetRecordFile';
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
 import GetRealTimeInfo from '@/container/confControl/GetRealTimeInfo';
 import SetChairView from '@/container/confControl/SetChairView';
 import GetOnlineConfInfo from '@/container/confControl/GetOnlineConfInfo';
 import GetOnlineConfList from '@/container/confControl/GetOnlineConfList';
 import SetDuration from '@/container/confControl/SetDuration';
 import SetLive from '@/container/confControl/SetLive';
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
 import GetHistoryConfList from '@/container/confControl/GetHistoryConfList'
 import GetHistoryConfInfo from '@/container/confControl/GetHistoryConfInfo'
 import GetHistoryConfCtlRecord from '@/container/confControl/GetHistoryConfCtlRecord'
@@ -100,6 +109,13 @@ class GeneralAdminSubLayout extends React.Component {
     componentDidMount() {
       // 注册浏览器尺寸变化监听事件， 刷新桌面尺寸
       window.addEventListener('resize', this.handleSize);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+      
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
     }
     
     handleSize = () => {
@@ -116,7 +132,15 @@ class GeneralAdminSubLayout extends React.Component {
     rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
     
       state = {
+<<<<<<< HEAD
         openKeys: ['sub1'],
+=======
+<<<<<<< HEAD
+        openKeys: ['sub1'],
+=======
+        openKeys: ['sub2'],
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
       };
 
     handleClick = (e) => {
@@ -145,21 +169,43 @@ class GeneralAdminSubLayout extends React.Component {
 
   render() {
     const {match} = this.props;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
     const token = sessionStorage.getItem("access_token");
     let userName = "";
     if(token){
       userName = "欢迎光临，" + token.split("|")[1];
     }
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
     return (
       <div className="conference-sub-layout">
         <Layout>
             <Header className="header" style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
               <div className="logo" />
               <Menu onClick={this.handleClick} theme="dark" mode="horizontal" openKeys={this.state.openKeys} onOpenChange={this.onOpenChange} style={{ lineHeight : '64px'}}>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
                   <Menu.Item key="1" style={{float: 'right'}}>
                       <Button onClick={this.handleLogoutClick} type = "primary" >注销</Button>
                   </Menu.Item>
                   <Menu.Item style={{float: 'right'}} key="2">{userName}</Menu.Item>
+<<<<<<< HEAD
+=======
+=======
+              <Menu.Item key="1">欢迎光临</Menu.Item>
+                <Menu.Item key="2">
+                  <Button onClick={this.handleLogoutClick} type = "primary" >注销</Button>
+                </Menu.Item>
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
               </Menu> 
             </Header>
             
@@ -199,7 +245,15 @@ class GeneralAdminSubLayout extends React.Component {
                             <Menu.Item key="2_2_7"><NavLink to={`${match.path}/getDeviceType`}>获取所有终端类型</NavLink></Menu.Item>
                             <Menu.Item key="2_2_8"><NavLink to={`${match.path}/ResetDeviceCode`}>重置激活码</NavLink></Menu.Item>
                         </SubMenu>
+<<<<<<< HEAD
 					            	<SubMenu key="sub2_3" title={<span>部门管理</span>}>
+=======
+<<<<<<< HEAD
+					            	<SubMenu key="sub2_3" title={<span>部门管理</span>}>
+=======
+						<SubMenu key="sub2_3" title={<span>部门管理</span>}>
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
                             <Menu.Item key="api1_1"><NavLink to={`${match.path}/add/corp/dept`}>创建部门</NavLink></Menu.Item> 
                             <Menu.Item key="api1_2"><NavLink to={`${match.path}/modify/corp/dept`}>修改部门</NavLink></Menu.Item>
                             <Menu.Item key="api1_3"><NavLink to={`${match.path}/delete/corp/dept`}>删除部门</NavLink></Menu.Item>
@@ -238,12 +292,21 @@ class GeneralAdminSubLayout extends React.Component {
                             <Menu.Item key="2_22"><NavLink to={`${match.path}/historyConferencesInfo`}>查询历史会议信息</NavLink></Menu.Item>
                             <Menu.Item key="2_23"><NavLink to={`${match.path}/historyConferences/hisConfCtlRecord`}>查询历史会议的会控记录信息</NavLink></Menu.Item>
                             <Menu.Item key="2_24"><NavLink to={`${match.path}/historyConferences/hisConfAttendeeRecord`}>查询历史会议的与会者记录信息</NavLink></Menu.Item>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
                             <Menu.Item key="2_25"><NavLink to={`${match.path}/getRealTimeInfo`}>查询会议实时信息</NavLink></Menu.Item>
                             <Menu.Item key="2_26"><NavLink to={`${match.path}/getOnlineConfList`}>查询在线会议列表</NavLink></Menu.Item>
                             <Menu.Item key="2_27"><NavLink to={`${match.path}/getOnlineConfInfo`}>查询在线会议信息</NavLink></Menu.Item>
                             <Menu.Item key="2_28"><NavLink to={`${match.path}/setChairView`}>主席选看视频画面</NavLink></Menu.Item>
                             <Menu.Item key="2_29"><NavLink to={`${match.path}/setDuration`}>延长会议</NavLink></Menu.Item>
                             <Menu.Item key="2_30"><NavLink to={`${match.path}/setLive`}>启动/停止会议直播</NavLink></Menu.Item>
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
                         </SubMenu>
                         <SubMenu key="sub2_6" title={<span>企业用户</span>}>
                             <Menu.Item key="2_6_1"><NavLink to={`${match.path}/queryUserMessage`}>用户查询自己的信息</NavLink></Menu.Item>
@@ -328,12 +391,21 @@ class GeneralAdminSubLayout extends React.Component {
                     <Route path={`${match.path}/historyConferencesInfo`} component={GetHistoryConfInfo} />
                     <Route path={`${match.path}/historyConferences/hisConfCtlRecord`} component={GetHistoryConfCtlRecord} />
                     <Route path={`${match.path}/historyConferences/hisConfAttendeeRecord`} component={GetHistoryConfAttendeeRecord} />
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
                     <Route path={`${match.path}/getRealTimeInfo`} component={GetRealTimeInfo} />
                     <Route path={`${match.path}/getOnlineConfList`} component={GetOnlineConfList} />
                     <Route path={`${match.path}/getOnlineConfInfo`} component={GetOnlineConfInfo} />
                     <Route path={`${match.path}/setChairView`} component={SetChairView} />
                     <Route path={`${match.path}/setDuration`} component={SetDuration} />
                     <Route path={`${match.path}/setLive`} component={SetLive} />
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
+>>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
                     <Route path={`${match.path}/queryUserMessage`} component={queryUserMessage} />
                     <Route path={`${match.path}/ModUserMessage`} component={ModUserMessage} />
                     <Route path={`${match.path}/getVerifycode`} component={getVerifycode} />
