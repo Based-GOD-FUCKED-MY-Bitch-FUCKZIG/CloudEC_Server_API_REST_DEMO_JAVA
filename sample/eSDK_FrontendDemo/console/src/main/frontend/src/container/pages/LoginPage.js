@@ -53,6 +53,7 @@ class Login extends React.Component{
                     if(userType === 2 && adminType === 2 )
                     {
                         sessionStorage.setItem('adminType', 2);
+<<<<<<< HEAD
                         login().then(
                             () => {history.replace('/app');}
                         );
@@ -69,13 +70,35 @@ class Login extends React.Component{
                         sessionStorage.setItem('adminType', 1);
                         login().then(
                             () => {history.replace('/generaladmin');}
+=======
+                        login().then(
+                            () => {history.push('/app');}
+                        );
+                    }//默认管理员
+                    else if(userType === 2 && adminType === 0)
+                    {
+                        sessionStorage.setItem('adminType', 0);
+                        login().then(
+                            () => {history.push('/admin');}
+                        );
+                    }//普通管理员
+                    else if(userType === 2 && adminType === 1)
+                    {                        
+                        sessionStorage.setItem('adminType', 1);
+                        login().then(
+                            () => {history.push('/generaladmin');}
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
                         );
                     }//sp管理员
                     else if(userType === 1)
                     {                        
                         sessionStorage.setItem('adminType', 3);
                         login().then(
+<<<<<<< HEAD
                             () => {history.replace('/spadmin');}
+=======
+                            () => {history.push('/spadmin');}
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
                         );
                     }
                 }

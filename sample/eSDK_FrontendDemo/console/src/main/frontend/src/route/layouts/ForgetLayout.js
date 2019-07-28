@@ -27,11 +27,21 @@ import {
 const Search = Input.Search;
 const CUT_WIDTH = 42;
 const width = 300;
+<<<<<<< HEAD
 var PhoneName;//填入的手机号码
 var userName;//填入账号/邮箱
 var flag = 0;//判断当前是手机号码找回密码(flag=0)还是账号/邮箱找回密码(flag=1)
 var tempName = 0;//将手机号或者账号/邮箱赋值给tempName
 var countdown;//倒计时的计数
+=======
+let PhoneName;//填入的手机号码
+let userName;//填入账号/邮箱
+let flag = 0;//判断当前是手机号码找回密码(flag=0)还是账号/邮箱找回密码(flag=1)
+let tempName = 0;//将手机号或者账号/邮箱赋值给tempName
+let clearInputValue;//清空表单的数据
+let countdownShow;//倒计时显示
+let countdown;//倒计时的计数
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
 
 class ForgetLayoutPage extends React.Component{
     
@@ -48,7 +58,10 @@ class ForgetLayoutPage extends React.Component{
             passwordValidate: false,
             disbledGetVerifyCode:null
         }  
+<<<<<<< HEAD
         this.countdownShow = null //倒计时显示
+=======
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
     }
     //获取滑块验证码
     sendSlideVerifyCode = () =>{
@@ -232,18 +245,29 @@ class ForgetLayoutPage extends React.Component{
                 console.info("发送验证码返回结果:",JSON.stringify(resbody));
 
                 if(resbody.returnCode !== "000000000"){
+<<<<<<< HEAD
                     message.error(resbody.returnCode +" : "+ i18n.t(resbody.returnCode,{sendLeftTime:this.state.countdown}));
+=======
+                    //console.log("倒计时还剩下countdown秒",countdown);
+                    message.error(resbody.returnCode +" : "+ i18n.t(resbody.returnCode,{sendLeftTime:countdown}));
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
                     return;
                 }
                 
                 message.success("发送验证码成功!");
+<<<<<<< HEAD
                 clearInterval(this.countdownShow);
                 //发送验证码成功后，需要180s后才能重新获取
                 this.CountdownTime(180);
+=======
+                //发送验证码成功后，需要180s后才能重新获取
+                this.Countdown(180);
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
             });
         }); 
     };
     //180秒倒计时
+<<<<<<< HEAD
     CountdownTime  = (value) =>{
       countdown = value;//倒计时的计数
       this.setState({
@@ -257,12 +281,29 @@ class ForgetLayoutPage extends React.Component{
         if( countdown === 0 )
         {
             clearInterval(this.countdownShow);
+=======
+    Countdown  = (value) =>{
+      countdown = value;
+      countdownShow = setInterval(() => {
+          this.setState({
+            countdown,
+            disbledGetVerifyCode:"success"
+          });
+          if(countdown === 0)
+          {
+            clearInterval(countdownShow);
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
             this.setState({
                 countdown:180,
                 disbledGetVerifyCode:null,
             });
+<<<<<<< HEAD
         }
         countdown--; 
+=======
+          }
+          countdown--; 
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
       },1000);
     }
 
@@ -310,10 +351,19 @@ class ForgetLayoutPage extends React.Component{
     //校验验证码
     handleSubmit = (e) => {
         e.preventDefault();
+<<<<<<< HEAD
+=======
+        //clearInterval(countdownShow);
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
         this.setState({
             disbledGetVerifyCode:null,
         });
         this.props.form.validateFields((err, values) => {
+<<<<<<< HEAD
+=======
+            //console.log('values:'+JSON.stringify(values));
+
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
             if (!err) {
 
                 let checkVerifycode = 0;
@@ -369,6 +419,7 @@ class ForgetLayoutPage extends React.Component{
                 });
             }
         });
+<<<<<<< HEAD
     }
     
     // componentWillUnmount(){
@@ -376,6 +427,17 @@ class ForgetLayoutPage extends React.Component{
     //         return
     //     }
     // };
+=======
+        //clearInputValue = setTimeout(this.props.form.resetFields,500);
+    }
+    
+    componentWillUnmount(){
+        clearTimeout(clearInputValue)
+        this.setState = (state, callback) => {
+            return
+        }
+    };
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
     //重置密码
     resetPwdSubmit = (e) => {
         e.preventDefault();
@@ -458,11 +520,17 @@ class ForgetLayoutPage extends React.Component{
             userDisplay:"block",
             noValidate: true,
             needValidate: false,
+<<<<<<< HEAD
             sliderDisplay:"none",
             disbledGetVerifyCode:null
         });
         //清空表单
         this.props.form.resetFields();
+=======
+            sliderDisplay:"none"
+        });
+        clearInputValue = setTimeout(this.props.form.resetFields,500);
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
     }
 
     phoneFindLogin = () =>{
@@ -473,6 +541,7 @@ class ForgetLayoutPage extends React.Component{
             userDisplay:"none",
             noValidate: false,
             needValidate: true,
+<<<<<<< HEAD
             sliderDisplay:"none",
             disbledGetVerifyCode:null
         });
@@ -481,6 +550,14 @@ class ForgetLayoutPage extends React.Component{
 
     handleLogoutClick = () => {
       clearInterval(this.countdownShow);
+=======
+            sliderDisplay:"none"
+        });
+        clearInputValue = setTimeout(this.props.form.resetFields,500);
+    }
+
+    handleLogoutClick = () => {
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
       flag = 0;
       const { history } = this.props;
       logout().then(() => {

@@ -160,7 +160,10 @@ export default class CrudTree extends React.Component{
             this.setState({
                 disabled: false,
                 selectedDeptCode: deptCode,
+<<<<<<< HEAD
                 deptNamePath,
+=======
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
                 selectedDeptName: deptName,
                 parentDeptCode: info.selectedNodes[0].props.dataRef.parentDeptCode,
                 note,
@@ -229,8 +232,11 @@ export default class CrudTree extends React.Component{
         this.setState({
             addDeptVisible: true,
         });
+<<<<<<< HEAD
         const form = this.formRef.props.form;
         form.resetFields();
+=======
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
     }
 
     hideAddDeptModal = () => {
@@ -292,8 +298,11 @@ export default class CrudTree extends React.Component{
         this.setState({
             renameDeptVisible: false,
         });
+<<<<<<< HEAD
         const form = this.renameformRef.props.form;
         form.resetFields();
+=======
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
     };
 
     handleRenameDepts = ()  => {
@@ -352,10 +361,13 @@ export default class CrudTree extends React.Component{
                     selectedDeptName: body.deptName,
                     note: body.note,
                 })
+<<<<<<< HEAD
 
                 if(this.props.onSubmit){
                     this.props.onSubmit({deptCode:this.state.selectedDeptCode,deptNamePath:this.state.deptNamePath})
                 }
+=======
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
         })
     }
 

@@ -145,10 +145,17 @@ class ConfContrl extends React.Component {
                     offConfAttend = []
                     var result= evt.data;
                     var data = JSON.parse(result);
+<<<<<<< HEAD
                     console.log("维持心跳返回结果action:" + data.action + "; conferenceState:" + data.conferenceState + "; participants:" + data.participants);
                     if(data.action === "NotifyConference" && data.conferenceState === "Destroyed"){
                         alert("会议已经结束")
                         //message.info("会议已经结束")
+=======
+                    console.log("action:" + data.action +";participants:"+data.participants);
+                    if(data.action === "NotifyConference" && data.conferenceState === "Destroyed"){
+                        alert("会议已经结束")
+                        message.info("会议已经结束")
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
                         window.close()
                     }
                     if(data.action === "NotifyConference" && data.conferenceState === "Created"){
@@ -183,7 +190,10 @@ class ConfContrl extends React.Component {
                             this.setState({
                                 showBrocast:"block",
                                 showRename:"block"
+<<<<<<< HEAD
                                
+=======
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
                             })
                         }else{
                             this.setState({
@@ -194,7 +204,11 @@ class ConfContrl extends React.Component {
                         if(participantstemp === undefined ){
                             return;
                         }
+<<<<<<< HEAD
                         for(let k=0; k < participantstemp.length; k++){
+=======
+                        for(var k=0; k < participantstemp.length; k++){
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
                             //console.log("participantstemp state:" + participantstemp[k].state);
                             if(participantstemp[k].state === 0){
                                 participants.push(participantstemp[k]);
@@ -208,7 +222,11 @@ class ConfContrl extends React.Component {
                         var onConfPhone = [];
                                                     
                         //提取在会号码组成数组                        
+<<<<<<< HEAD
                         for(let m = 0; m < participants.length; m++){
+=======
+                        for(var m = 0; m < participants .length; m++){
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
                             onConfPhone.push(participants[m].subscriberID)
                         }                       
                               
@@ -216,9 +234,14 @@ class ConfContrl extends React.Component {
                         var flag;
                         if(data.attendees!==undefined && data.attendees.length>0){
                             //提取attend是里的号码
+<<<<<<< HEAD
                             //var attendPhone = new Array() 
                             var attendPhone = []
                             for(let i=0; i < data.attendees.length; i++){
+=======
+                            var attendPhone = new Array() 
+                            for(var i=0; i < data.attendees.length; i++){
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
                                 attendPhone.push(data.attendees[i].phone)
                                 flag = false                                                                                                
                                 if(onConfNum.length>0){
@@ -260,7 +283,11 @@ class ConfContrl extends React.Component {
                             })
                         }
                         //循环在会号码，定位出不在attend中的与会者，即外部主动入会的与会者
+<<<<<<< HEAD
                         for(let n = 0;n < onConfPhone.length;n++){
+=======
+                        for(var n = 0;n < onConfPhone.length;n++){
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
                             if(attendPhone.indexOf(onConfPhone[n]) <0){
                                 var confRole = participants[n].role === 1?'主席 ':"" 
                                 var particRollcalled = participants[n].isRollcalled === 1?'点名 ':""
@@ -909,6 +936,7 @@ class ConfContrl extends React.Component {
         const columns = [{
             title: '名称',
             dataIndex: 'name',
+<<<<<<< HEAD
             key: 'name',
           }, {
             title: '会中状态',
@@ -952,6 +980,48 @@ class ConfContrl extends React.Component {
                         <Icon type="ordered-list" style={{color:'#4876FF',fontSize:20}}/>
                     </Dropdown>
                 </div>
+=======
+          }, {
+            title: '会中状态',
+            dataIndex: 'status',
+          }, {
+            title: '类型',
+            dataIndex: 'style',
+            
+          },{
+            title: '信息',
+            dataIndex: 'info',
+            
+          },{
+            title: '操作',
+            dataIndex: 'operator',
+            render:()=>(<div>
+            <div style={{float:'left',display:this.state.status==="在会"?"none":"block"}}>
+                <Tooltip placement="bottom" title='呼叫'>
+                    <Icon type="phone" style={{color:'#4876FF',fontSize:20}} onClick={this.call}/>
+                </Tooltip>
+            </div>
+            <div style={{float:'left',display:this.state.status==="在会"?"block":"none"}} >
+                <Tooltip placement="bottom" title='挂断'>
+                    <Icon type="phone" style={{color:'#4876FF',fontSize:20}} onClick={this.down}/>
+                </Tooltip>
+            </div>
+            <div style={{float:'left',marginLeft:'5px'}}>
+                <Tooltip placement="bottom" title='重命名'>
+                    <Icon type="edit" style={{color:'#4876FF',fontSize:20}} onClick={this.handleEdit}/>
+                </Tooltip>
+            </div>
+            <div style={{float:'left',marginLeft:'5px'}}>
+                <Tooltip placement="bottom" title='删除'>
+                    <Icon type="delete" style={{color:'#4876FF',fontSize:20}} onClick={this.delAttend}/>
+                </Tooltip>
+            </div>
+            <div style={{display:'block',float:'left',marginLeft:'10px'}}>
+                <Dropdown overlay={menu1} style={{disabled:'true'}}>
+                    <Icon type="ordered-list" style={{color:'#4876FF',fontSize:20}}/>
+                </Dropdown>
+            </div>
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
             </div>
             )
           }];
@@ -991,6 +1061,7 @@ class ConfContrl extends React.Component {
             </Menu>)
           const menu1 = (
             <Menu>
+<<<<<<< HEAD
                 <Menu.Item style={{display:this.state.applyRole}}>
                     <div onClick={this.applyChair.bind(this,1)}>               
                         设为主席                
@@ -1011,6 +1082,29 @@ class ConfContrl extends React.Component {
                         点名                  
                     </div>
                 </Menu.Item>          
+=======
+             
+            <Menu.Item>
+                <div style={{display:this.state.showBrocast}} onClick={this.broadcast}>                  
+                    广播                   
+                </div>
+            </Menu.Item>
+            <Menu.Item>
+               <div style={{display:this.state.showRename}} onClick={this.isRollcalled}>                   
+                    点名                  
+               </div>
+            </Menu.Item>             
+            <Menu.Item style={{display:this.state.applyRole}}>
+            <div onClick={this.applyChair.bind(this,1)}>               
+                设为主席                
+            </div>
+            </Menu.Item>
+            <Menu.Item style={{display:this.state.releaseRole}}>
+            <div onClick={this.applyChair.bind(this,0)}>              
+                释放主席                
+            </div>
+            </Menu.Item>
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
             </Menu>
         );
 
@@ -1061,8 +1155,12 @@ class ConfContrl extends React.Component {
                                 <div style={{display:this.state.viewTextWindow2}}>
                                     <div> 
                                         视频源
+<<<<<<< HEAD
                                         {/* <Menu onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal"> */}
                                         <Menu onClick={this.handleClick} selectedKeys={[this.state.current]}>
+=======
+                                        <Menu onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal">
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
                                             <Menu.Item key="mail">
                                                 与会方
                                             </Menu.Item>

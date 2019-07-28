@@ -202,7 +202,11 @@ class AddDevicePortal extends React.Component {
 
                             <QueryTree onSubmit={this.printContent} onSelect={this.isSelected}/>
                     </Modal>
+<<<<<<< HEAD
                     <Form {...formItemLayout} onSubmit={this.handleSubmit} labelAlign='left' autoComplete="off"> 
+=======
+                    <Form {...formItemLayout} onSubmit={this.handleSubmit} labelAlign='left'> 
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
                         <Form.Item label="名称">
                             {getFieldDecorator('name', {
                                 rules: [                          

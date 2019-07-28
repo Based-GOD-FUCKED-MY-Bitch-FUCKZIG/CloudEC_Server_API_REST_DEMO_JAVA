@@ -461,7 +461,11 @@ class UserCreateConfPage extends React.Component {
             onChange: this.handleSelections
         };
 
+<<<<<<< HEAD
         const { sitesName, inputVisible, inputValue } = this.state;
+=======
+        const { sitesName, inputVisible, inputValue, inputName } = this.state;
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
         const tagChild = sitesName.map(this.forMap);
 
         return (

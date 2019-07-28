@@ -59,7 +59,12 @@ class ConferenceSubLayout extends React.Component {
     constructor () {      
       super();
       this.handleClick = this.handleClick.bind(this);
+<<<<<<< HEAD
       this.handleLogoutClick = this.handleLogoutClick.bind(this); 
+=======
+      this.handleLogoutClick = this.handleLogoutClick.bind(this);   
+      
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
     }
     
     componentDidMount() {
@@ -123,11 +128,19 @@ class ConferenceSubLayout extends React.Component {
             <Header className="header" style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
               <div className="logo" />
               <Menu onClick={this.handleClick} theme="dark" mode="horizontal" openKeys={this.state.openKeys} onOpenChange={this.onOpenChange} style={{ lineHeight : '64px'}}>
+<<<<<<< HEAD
                   <Menu.Item key="1" style={{float: 'right'}}>
                       <Button onClick={this.handleLogoutClick} type = "primary" >注销</Button>
                   </Menu.Item>
                   <Menu.Item style={{float: 'right'}} key="2">{userName}</Menu.Item>
               </Menu>
+=======
+              <Menu.Item key="1">欢迎光临</Menu.Item>
+                <Menu.Item key="2">
+                  <Button onClick={this.handleLogoutClick} type = "primary" >注销</Button>
+                </Menu.Item>
+              </Menu> 
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
             </Header>            
                 <Layout style={{ padding: '24px 0',background:'#fff',marginTop:40}}>
                   <Sider width={270} style={{ background: '#fff',overflow: 'auto',height:this.state.deskHeight,position: 'fixed', zIndex: 1}}>
@@ -187,6 +200,13 @@ class ConferenceSubLayout extends React.Component {
                             <Menu.Item key="2_3_4"><NavLink to={`${match.path}/checkVerifycode`}>校验手机和邮箱对应的验证码</NavLink></Menu.Item>
                             <Menu.Item key="2_3_5"><NavLink to={`${match.path}/modCommunication`}>修改手机或邮箱</NavLink></Menu.Item>
                         </SubMenu>
+                        <SubMenu key="sub2_3" title={<span>企业用户</span>}>
+                            <Menu.Item key="2_3_1"><NavLink to={`${match.path}/queryUserMessage`}>用户查询自己的信息</NavLink></Menu.Item>
+                            <Menu.Item key="2_3_2"><NavLink to={`${match.path}/ModUserMessage`}>用户修改自己的信息</NavLink></Menu.Item>
+                            <Menu.Item key="2_3_3"><NavLink to={`${match.path}/getVerifycode`}>获取验证码</NavLink></Menu.Item>                           
+                            <Menu.Item key="2_3_4"><NavLink to={`${match.path}/checkVerifycode`}>校验手机和邮箱对应的验证码</NavLink></Menu.Item>
+                            <Menu.Item key="2_3_5"><NavLink to={`${match.path}/modCommunication`}>修改手机或邮箱</NavLink></Menu.Item>
+                        </SubMenu>
                       </SubMenu> 
                   </Menu>
                 </Sider>
@@ -221,12 +241,15 @@ class ConferenceSubLayout extends React.Component {
                     <Route path={`${match.path}/historyConferencesInfo`} component={GetHistoryConfInfo} />
                     <Route path={`${match.path}/historyConferences/hisConfCtlRecord`} component={GetHistoryConfCtlRecord} />
                     <Route path={`${match.path}/historyConferences/hisConfAttendeeRecord`} component={GetHistoryConfAttendeeRecord} />
+<<<<<<< HEAD
                     <Route path={`${match.path}/getRealTimeInfo`} component={GetRealTimeInfo} />
                     <Route path={`${match.path}/getOnlineConfList`} component={GetOnlineConfList} />
                     <Route path={`${match.path}/getOnlineConfInfo`} component={GetOnlineConfInfo} />
                     <Route path={`${match.path}/setChairView`} component={SetChairView} />
                     <Route path={`${match.path}/setDuration`} component={SetDuration} />
                     <Route path={`${match.path}/setLive`} component={SetLive} />
+=======
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
                     <Route path={`${match.path}/queryUserMessage`} component={queryUserMessage} />
                     <Route path={`${match.path}/ModUserMessage`} component={ModUserMessage} />
                     <Route path={`${match.path}/getVerifycode`} component={getVerifycode} />

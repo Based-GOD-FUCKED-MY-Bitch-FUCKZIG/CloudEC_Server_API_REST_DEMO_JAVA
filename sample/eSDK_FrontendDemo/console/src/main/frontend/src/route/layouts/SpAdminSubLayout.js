@@ -77,21 +77,31 @@ class SpAdminSubLayout extends React.Component {
 
   render() {
     const {match} = this.props;
+<<<<<<< HEAD
     const token = sessionStorage.getItem("access_token");
     let userName = "";
     if(token){
       userName = "欢迎光临，" + token.split("|")[1];
     }
+=======
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
     return (
       <div className="conference-sub-layout">
         <Layout>
             <Header className="header" style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
               <div className="logo" />
               <Menu onClick={this.handleClick} theme="dark" mode="horizontal" openKeys={this.state.openKeys} onOpenChange={this.onOpenChange} style={{ lineHeight : '64px'}}>
+<<<<<<< HEAD
                   <Menu.Item key="1" style={{float: 'right'}}>
                       <Button onClick={this.handleLogoutClick} type = "primary" >注销</Button>
                   </Menu.Item>
                   <Menu.Item style={{float: 'right'}} key="2">{userName}</Menu.Item>
+=======
+              <Menu.Item key="1">欢迎光临</Menu.Item>
+                <Menu.Item key="2">
+                  <Button onClick={this.handleLogoutClick} type = "primary" >注销</Button>
+                </Menu.Item>
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
               </Menu> 
             </Header>
                 <Layout style={{ padding: '24px 0',background:'#fff',marginTop:40}}>
@@ -124,7 +134,11 @@ class SpAdminSubLayout extends React.Component {
                   <Route path={`${match.path}/add/sp/corp`}  component={AddCorp} />
                   <Route path={`${match.path}/modify/sp/corp`}  component={ModifyCorp} />
                   <Route path={`${match.path}/queryCorpDetail/sp/corp`}  component={QueryCorpDetail} />
+<<<<<<< HEAD
                   <Route path={`${match.path}/delete/sp/corp`}  exact component={DeleteCorp} />
+=======
+                  <Route path={`${match.path}/delete/sp/corp`}  component={DeleteCorp} />
+>>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
                   <Route path={`${match.path}/search/sp/corp/resource`} exact component={QueryCorpResourceList} />
                   <Route path={`${match.path}/delete/sp/corp/resource`} exact component={DelCorpResource} />
                   <Route path={`${match.path}/sp/corp/resource/search`}  component={spCorpResourceSearch} />
