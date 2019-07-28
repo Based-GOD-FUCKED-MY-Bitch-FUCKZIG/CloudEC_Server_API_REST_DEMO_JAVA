@@ -462,23 +462,12 @@ export default class CorpDeptManage extends React.Component{
     render(){
         const { selectedRowKeys } = this.state;
         const rowSelection = {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
 
             selectedRowKeys,
             onChange: this.handleSelection,
             getCheckboxProps:record =>({
                 disabled:record.userAccount===userAccount
             })
-<<<<<<< HEAD
-=======
-=======
-            selectedRowKeys,
-            onChange: this.handleSelection
->>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
->>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
         };
         const hasSelected = selectedRowKeys.length > 0;
         const access_token = sessionStorage.getItem("access_token");

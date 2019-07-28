@@ -2,193 +2,159 @@
  * Copyright 2019 Huawei Technologies Co., Ltd. All rights reserved.
  */
 import React from 'react';
-import { put } from '@/utils/request';
-import { message,Table,Button,Tooltip,Icon,Modal,Layout,Menu,Dropdown,Form,Input,Select,Breadcrumb   } from 'antd';
+import { get } from '@/utils/request';
+import { message,Form,Input,Card,Row,Col,Button,Select,Modal,Breadcrumb,Icon   } from 'antd';
 import { post } from '@/utils/request'
-import CrudTree from '@/container/deptTree/CrudTree'
+import QueryTree from '@/container/corpManage/QueryTree'
 import i18n from '@/locales'
-import {Link} from 'react-router-dom'
 
-var devices = []
-const {  Sider, Content } = Layout
 const { Option } = Select;
-var sns = []
-
-var deptCodeTemp = "1";
+const { TextArea } = Input;
 /**
- * 设备管理页面
+ * 增加设备的管理页面
  */
-class DevicePortal extends React.Component {
+class AddDevicePortal extends React.Component {
     
-    constructor(){
-        super();
-        this.state={
-            devices:[],
-            disabled:true,
-            deptCode:"1",
-            visible:false
+    constructor(props){
+        super(props);
+        this.state = {
+            deptCode: this.props.location.search.split("=")[1],
+            showSN:"none",
+            required:false,
         }
-        this.queryDevices("1",1)
-        
+        this.queryDept(this.state.deptCode)
+                  
     }
     
-    onShowSizeChange=(current, pageSize)=>{
-        var queryBody={"pageIndex":current,"pageSize":pageSize}
-        var data = JSON.stringify(queryBody)
-        this.pageQueryCorpManager(data)
-    }
-    onChange=(current,pageSize)=>{
-        var queryBody={"pageIndex":current,"pageSize":pageSize}
-        var data = JSON.stringify(queryBody)
-        this.pageQueryCorpManager(data)      
-    }
-    onDeviceChange=(current)=>{
-        if(this.state.deptCode === undefined){
-            this.queryDevices('1',current)
-        }else{
-            this.queryDevices(this.state.deptCode,current)
-        }
-        
-    }
-    
-    //查询设备列表
-    queryDevices=(deptCode,pageIndex)=>{
+    //查询部门
+    queryDept=(deptCode)=>{
         let headers = {'Content-Type': 'application/json',
         'Accept': 'application/json',
         'Authorization': sessionStorage.getItem('access_token')
         };
-
-        var queryBody = {
-            "pageIndex":pageIndex,"pageSize":10,"deptCode":deptCode
-        }
-        var data = JSON.stringify(queryBody)
-
-        post("/rest/usg/datacenter/v1/corp/device/search", {data}, headers).then(
+        get("/rest/usg/datacenter/v1/member/dept/"+deptCode, headers).then(
             (res) => {
                 if(!this.failTip(res)){
                     return;
+                } 
+                const deptNamePath = JSON.parse(res.data.entity).data.deptNamePath
+                const deptNameePathSplit = deptNamePath.split("#")
+                var deptNames = deptNameePathSplit[deptNameePathSplit.length-1]
+                for(var i = deptNameePathSplit.length-1; i>0; i--){
+                    deptNames += "【"+deptNameePathSplit[i-1]+"】"
                 }
-                
-                devices = JSON.parse(res.data.entity).data.data
-
                 this.setState({
-                    devices: devices,
-                    totalDevices:JSON.parse(res.data.entity).data.totalCount,
-                    selectedRowKeys:[]              
-                });
-            })   
+                    deptNamePath:deptNames
+                })
+                this.props.form.setFieldsValue({ "deptName": deptNames })
+        })  
     }
-
-    //删除设备
-    delDevice=(data)=>{
-        let headers = {'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': sessionStorage.getItem('access_token')
-      };
-      post("/rest/usg/datacenter/v1/corp/device/delete", {data}, headers).then(
-        (res) => {
-            if(!this.failTip(res)){
-                return;
-            }
-            this.queryDevices(deptCodeTemp,1)
-            message.success('操作成功')
-           
-        })
-    }
-    delDevices=(data)=>{
-        const delDevices =(data) =>  this.delDevice(data)      
-        
-            Modal.confirm({
-                title: '确定要删除此硬件终端吗?',
-                onOk() {
-                    delDevices(data)
-                },
-                onCancel() {
-                    //console.log('Cancel');
-                },
-            });            
-    }
-
-    //点击修改按钮跳转修改页面
-    modifyDevices=()=>{
-        const {match} = this.props;
-        this.props.history.push(`${match.path}/modify/`+this.state.sn+`?deptCode=`+this.state.deptCode)
-
-    }
-    //点击增加按钮跳转增加页面
-    linkToAddDevicePortal=()=>{
-        const {match} = this.props;
-        this.props.history.push(`${match.path}/create?deptCode=`+deptCodeTemp)
-        deptCodeTemp = "1"
-    }
-    
-    //启用or停止使用终端
-    start=(status)=>{
-        let headers = {'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': sessionStorage.getItem('access_token')
-        };
-        var data=JSON.stringify([this.state.sn])
-        put('/rest/usg/datacenter/v1/corp/device/status/'+status, {data}, headers).then(
-            (res) => {
-                if(!this.failTip(res)){
-                    return;
-                }
-                this.queryDevices(deptCodeTemp,1)
-                message.success('操作成功')
-            })
-    }
-
-    showResetModal=()=>{
-        this.setState({
-            visible: true,
-          });
-    }
-    //点击ok，调用重置激活码接口
-    handleOk =()=> {
+    handleSubmit = e => {
+        e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
-            if (!err) {
+          if (!err) {               
+                if((values.email === undefined || values.email === "" )&& (values.phone === undefined ||
+                     values.phone === "")){
+                    Modal.info({
+                        title: '请输入手机号和邮箱地址',
+                        content: "需要用户手机或邮箱登录客户端/CloudLink 管理平台，或接收会议通知等信息"                       
+                    });
+                    return;
+                }              
                 let headers = {'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 'Authorization': sessionStorage.getItem('access_token')
                 };
-                var requestBody;
-                if(values.phone===''||values.phone===undefined){
-                    requestBody = {country:'',emailAddr:values.email,smsNumber:''}
-                }else{
-                    requestBody = {country:'chinaPR',emailAddr:values.email,smsNumber:values.prefix+values.phone}
+                let addDeviceBody;
+                if(values.phone!==undefined){
+                    addDeviceBody={deptCode:this.state.deptCode,model:values.model,name:values.name,
+                        phone:values.prefix+values.phone,sn:values.sn,email:values.email,description:values.description
+                    }                    
                 }
-                const data = JSON.stringify(requestBody)
-                put('/rest/usg/datacenter/v1/corp/device/'+this.state.sn+'/activecode', {data}, headers).then(
+                else{
+                    addDeviceBody={deptCode:this.state.deptCode,model:values.model,name:values.name,
+                        phone:"",sn:values.sn,email:values.email,description:values.description
+                    } 
+                }
+                var data = JSON.stringify(addDeviceBody)
+                //增加终端
+                post("/rest/usg/datacenter/v1/corp/device", {data}, headers).then(
                     (res) => {
                         if(!this.failTip(res)){
                             return;
                         }
-                    message.success('操作成功') 
-                    this.setState({
-                        visible: false,
-                    });
-                })                
+                        message.success("操作成功")
+                        const {match} = this.props;
+                        const deviceUrl = match.path
+                        this.props.history.push(deviceUrl.split('/create')[0])
+                })
             }
-        });
-        
-    };
-    
-    handleCancel=()=> {
-        this.setState({
-            visible: false,
         });
     };
 
-    printContent = (messageInfo) =>{
+    handleCancle = () => {
+    const {match} = this.props;
+    const deviceUrl = match.path
+    this.props.history.push(deviceUrl.split('/create')[0])
+
+    };
+
+    onChange=(value)=>{
+        if(value==="Polycom RealPresence Group 310"||
+            value==="Polycom 550"||
+            value==="RealPresence Group 500"||
+            value==="SX20"){
+            this.setState({
+                showSN:"none",
+                required:false
+            })
+        }else{
+            this.setState({
+                showSN:"block",
+                required:true
+            })
+        }
+        
+    }
+
+    handleOk=()=>{
+        if(!this.state.selected){
+            this.setState({
+                visible: false,
+            }); 
+        }else{
+            this.queryDept(this.state.deptCode)
+            this.setState({
+                visible: false,
+            });  
+        }        
+    }
+    
+    handleCancel = ()=> {
+        this.setState({
+            visible: false,
+        });
+    };   
+    showDept=()=>{
+        this.setState({
+            visible: true,
+        });
+    }
+    isSelected=(selected)=>{
+        this.setState({
+            selected:selected
+        })
+    }
+    printContent=(messageInfo)=>{
         var { deptCode } = messageInfo
-        deptCodeTemp = deptCode
-        this.queryDevices(deptCode,1)
+        this.setState({
+            deptCode:deptCode,
+        })
     }
     //结果返回错误提示
     failTip=(res)=>{
         if(!res.success) {
-            message.info(res.msg);
+            message.error(res.msg);
             return false;
         }
 
@@ -198,164 +164,8 @@ class DevicePortal extends React.Component {
             return false;
         }
         return true;
-    }   
+    }
     render(){
-        const {match} = this.props;
-        const menu = (
-            <Menu>             
-                <Menu.Item>
-                    <div onClick={this.showResetModal}>                  
-                        重置激活码                   
-                    </div>                    
-                </Menu.Item>
-                <Menu.Item style={{display:this.state.status===0?'none':'block'}}>
-                    <div onClick={this.start.bind(this,0)} >                   
-                        启用                  
-                    </div>                
-                </Menu.Item> 
-                <Menu.Item style={{display:this.state.status===1?'none':'block'}}>
-                    <div onClick={this.start.bind(this,1)}>                   
-                        停用                  
-                    </div>                
-                </Menu.Item>            
-            </Menu>
-        );
-        const columns = [
-            {
-                title: '名称',
-                dataIndex: 'name',
-<<<<<<< HEAD
-                key: 'name',
-=======
-<<<<<<< HEAD
-                key: 'name',
-=======
->>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
->>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
-                width: 100,
-                fixed: 'left',
-                render:(text)=>{
-                    return <Link to={`${match.path}/detail?sn=`+this.state.sn}>{text}</Link>
-                }
-            },
-            {
-                title: '部门',
-                dataIndex: 'deptNamePath',
-<<<<<<< HEAD
-                key: 'deptNamePath',
-=======
-<<<<<<< HEAD
-                key: 'deptNamePath',
-=======
->>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
->>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
-                render:(text)=>{
-                    const deptNameePathSplit = text.split("#")
-                    var deptNames = deptNameePathSplit[deptNameePathSplit.length-1]
-                    for(var i = deptNameePathSplit.length-1; i>0; i--){
-                        deptNames +="【"+deptNameePathSplit[i-1]+"】"
-                    }
-                    return deptNames
-                }
-            },
-            {
-                title: '号码',
-                dataIndex: 'number',
-<<<<<<< HEAD
-                key: 'number',
-=======
-<<<<<<< HEAD
-                key: 'number',
-=======
->>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
->>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
-            },
-            {
-                title: '设备型号',
-                dataIndex: 'model',
-<<<<<<< HEAD
-                key: 'model',
-=======
-<<<<<<< HEAD
-                key: 'model',
-=======
->>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
->>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
-            },
-            {
-                title: '状态',
-                dataIndex: 'status',
-<<<<<<< HEAD
-                key: 'status',
-=======
-<<<<<<< HEAD
-                key: 'status',
-=======
->>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
->>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
-                render:(text)=>{
-                    if(text === 0){
-                        return "启用"
-                    }else{
-                        return "停用"
-                    }
-                }
-            },
-            {
-                title: '操作',
-                dataIndex: 'operator',
-<<<<<<< HEAD
-                key: 'operator',
-=======
-<<<<<<< HEAD
-                key: 'operator',
-=======
->>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
->>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
-                fixed: 'right',
-                width: 100,
-                render:(text,record)=>(
-                    
-                <span>
-                    <Tooltip placement="bottom" title='修改'>
-                        <Icon type="edit" style={{color:'#4876FF',fontSize:15}} onClick={this.modifyDevices}/>
-                    </Tooltip>
-                    <Tooltip placement="bottom" title='删除'>
-                        <Icon type="delete" style={{color:'#4876FF',fontSize:15,marginLeft:5}} onClick={this.delDevices.bind(this,JSON.stringify([this.state.sn]))}/>
-                    </Tooltip>
-                    <Dropdown overlay={menu} style={{disabled:'true'}}>
-                        <Icon type="more" style={{color:'#4876FF',fontSize:15,marginLeft:5}} />
-                    </Dropdown>
-                </span>)
-            }          
-          ];
-          const { selectedRowKeys } = this.state;
-          // rowSelection object indicates the need for row selection
-          const rowSelection = {
-          selectedRowKeys,
-          onChange: (selectedRowKeys, selectedRows) => { 
-          sns=[]   
-          //console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-
-          if(selectedRowKeys.length===0){
-              this.setState({
-                  disabled:true
-              })
-          }else{
-              this.setState({
-                  disabled:false
-              })
-          }
-          for(var i=0;i<selectedRows.length;i++){
-            sns.push(selectedRows[i].sn)
-          }
-          this.setState({
-              sns:sns,
-              selectedRowKeys
-          })
-          }        
-        };  
-
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
             labelCol: {
@@ -364,90 +174,147 @@ class DevicePortal extends React.Component {
             },
             wrapperCol: {
               xs: { span: 24 },
-              sm: { span: 10 },
+              sm: { span: 8 },
+              md: { span: 100 },
             },
           }; 
           const prefixSelector = getFieldDecorator('prefix', {
             initialValue: '+86',
           })(
-            <Select style={{ width: 70 }}>
-              <Option value="+86">+86</Option>
+            <Select style={{ width: 135 }}>
+              <Option value="+86">+86(中国大陆)</Option>              
             </Select>,
-          );      
-        return(                                                     
-            <Layout> 
-                <Content style={{ background: '#ECECEC', padding: '30px',width:'100%',height:'100%'}}>
+          );   
+        return( 
+            <div style={{ background: '#ECECEC', padding: '30px',width:'100%',height:'100%'}}>
                 <Breadcrumb style={{ margin: '16px 0' }}>
                     <Breadcrumb.Item>企业</Breadcrumb.Item>
                     <Breadcrumb.Item>终端管理</Breadcrumb.Item>
-                </Breadcrumb>  
-                    <Layout>
+                    <Breadcrumb.Item>添加硬件终端</Breadcrumb.Item>
+                </Breadcrumb>
+                <h3 style={{ marginBottom: 16 }}>添加硬件终端</h3>
+                <Card>
+                <Modal  title="选择部门"                           
+                            visible={this.state.visible}
+                            onOk={this.handleOk}
+                            onCancel={this.handleCancel}
+                            maskClosable={false} keyboard={false}>
+
+                            <QueryTree onSubmit={this.printContent} onSelect={this.isSelected}/>
+                    </Modal>
+                    <Form {...formItemLayout} onSubmit={this.handleSubmit} labelAlign='left' autoComplete="off"> 
+                        <Form.Item label="名称">
+                            {getFieldDecorator('name', {
+                                rules: [                          
+                                {
+                                    required: true,
+                                    message: '硬件终端名称不能为空',
+                                },
+                                ],
+                            })(<Input placeholder='请输入名称'/>)}
+                        </Form.Item>
+                        <Form.Item label="设备型号" style={{marginTop:-5}}>
+                            {getFieldDecorator('model', {
+                                rules: [                          
+                                {
+                                    required: true,
+                                    message: '硬件终端设备型号不能为空',
+                                },
+                                ],                               
+                            })(                              
+                                <Select 
+                                showSearch
+                                style={{ width: 300 }}
+                                placeholder="Select a device"
+                                optionFilterProp="children"
+                                onChange={this.onChange}
+                                filterOption={(input, option) =>
+                                option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                }
+                            > 
+                                <Option value="DP300">DP300</Option>
+                                <Option value="HUAWEI Bar 500">HUAWEI Bar 500</Option>
+                                <Option value="HUAWEI Board">HUAWEI Board</Option>
+                                <Option value="HUAWEI Box 500">HUAWEI Box 500</Option>
+                                <Option value="HUAWEI Box 700">HUAWEI Box 700</Option>
+                                <Option value="HUAWEI Box 900">HUAWEI Box 900</Option>
+                                <Option value="TE10">TE10</Option>
+                                <Option value="TE20">TE20</Option>
+                                <Option value="TE30">TE30</Option>
+                                <Option value="TE40">TE40</Option>
+                                <Option value="TE50">TE50</Option>
+                                <Option value="TE60">TE60</Option>
+                                <Option value="Polycom RealPresence Group 310">Polycom RealPresence Group 310</Option> 
+                                <Option value="Polycom 550">Polycom 550</Option> 
+                                <Option value="RealPresence Group 500">RealPresence Group 500</Option> 
+                                <Option value="SX20">SX20</Option>                                 
+                            </Select>
+                            )}
+                        </Form.Item>
+                        <Form.Item label="SN码" style={{display:this.state.showSN,marginTop:-5}}>
+                            {getFieldDecorator('sn', {
+                                rules: [                          
+                                {
+                                    required: this.state.required,
+                                    message: 'SN码不能为空',
+                                },
+                                ],
+                            })(<Input />)}
+                        </Form.Item>
+                        <Form.Item label="选择部门" style={{marginTop:-5}}>
+                            {getFieldDecorator('deptName', {
+                                initialValue:this.state.deptNamePath,
+                                rules: [                          
+                                {
+                                    required: true,
+                                    message: '部门不能为空',                                   
+                                },
+                                ],
+                                
+                            })(<Input addonAfter={<Icon type="cluster" onClick={this.showDept}/>} readOnly/>)}
+                        </Form.Item>
+                        <Form.Item label="手机" style={{marginTop:-5}}>
+                            {getFieldDecorator('phone', {
+                                rules: [
+                                {
+                                    pattern: /^[0-9]*$/,
+                                    message: '手机号码只允许纯数字',
+                                }                                                             
+                                ],  
+                            })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} placeholder='请输入手机号'/>)}
+                        </Form.Item>
+                        <Form.Item label="邮箱" style={{marginTop:-5}}>
+                            {getFieldDecorator('email', {
+                                rules: [
+                                {
+                                    type: 'email',
+                                    message: '邮箱地址格式不正确',
+                                },                              
+                                ],
+                            })(<Input placeholder='请输入邮箱'/>)}
+                        </Form.Item>
+                        <Form.Item label="备注" style={{marginTop:-5}}>
+                            {getFieldDecorator('description', {
+                              
+                            })(<TextArea placeholder='请输入备注'/>)}
+                        </Form.Item>                         
+                        <Row>
+                            <Col span={12} style={{ textAlign: 'center' }}>
+                                <Button type="primary" htmlType="submit">
+                                保存
+                                </Button>
+                                <Button style={{ marginLeft: 8 }} onClick={this.handleCancle}>
+                                取消
+                                </Button>
+                                
+                            </Col>
+                        </Row>
+                    </Form> 
                     
-                        <Sider width={220} style={{background: 'white',padding: 24,margin: 0,minHeight: 280,overflowX:'auto'}}>
-                            <CrudTree onSubmit={this.printContent}/>                                                           
-                        </Sider>
-                        <Content style={{ padding: '0 24px', minHeight: 280,background:'white' }}>
-                                <div style={{ position: 'relative',zIndex: 1}}>
-                                    <div style={{float:'left'}} >
-                                        <Button type="primary" onClick={this.linkToAddDevicePortal}>添加
-                                        </Button></div>
-                                    <div style={{float:'left',marginLeft:'10px'}}><Button disabled={this.state.disabled} 
-                                        onClick={this.delDevices.bind(this,JSON.stringify(this.state.sns))}>删除</Button></div>    
-                                    </div>                                                                                                                     
-                                <Table rowKey={record => record.id} columns={columns} rowSelection={rowSelection} dataSource={this.state.devices} scroll={{ x: 800 }} size={'small'}
-                                    pagination={{ pageSize: 10,total:this.state.totalDevices,onChange:this.onDeviceChange}}
-                                    onRow={record =>{
-                                    return {
-                                        onMouseOver: event => {
-                                            this.setState({
-                                                sn:record.sn, 
-                                                status:record.status,
-                                                deptCode:record.deptCode,
-                                                email:record.email,
-                                                phone:record.phone===null?"":record.phone.split("+86")[1]                                               
-                                            })                      
-                                        },
-                                    }
-                                }}/> 
-                                <Modal  title="重置激活码"
-                                    visible={this.state.visible}
-                                    onOk={this.handleOk}
-                                    onCancel={this.handleCancel}
-                                    maskClosable={false} keyboard={false}>
-                                    <div style={{fontSize:10,marginBottom:20}}>请确认或重填接收激活码的手机或邮箱</div>
-                                    <Form {...formItemLayout} onSubmit={this.handleSubmit} labelAlign='left'>
-                                        <Form.Item label="手机">
-                                            {getFieldDecorator('phone', {
-                                                initialValue:this.state.phone,
-                                                rules: [
-                                                {
-                                                    pattern: /^[0-9]*$/,
-                                                    message: '手机号码只允许纯数字',
-                                                }                                                             
-                                                ],
-                                            })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
-                                        </Form.Item>
-                                        <Form.Item label="邮箱">
-                                            {getFieldDecorator('email', {
-                                                initialValue:this.state.email,
-                                                rules: [
-                                                {
-                                                    type: 'email',
-                                                    message: '邮箱地址格式不正确',
-                                                },                              
-                                                ],
-                                            })(<Input />)}
-                                    </Form.Item>
-                                    </Form>                                                
-                                </Modal>   
-                        </Content>
-                    </Layout>
-                </Content>                            
-            </Layout>                        
-                                             
-            
+                </Card>
+            </div>                      
         )
     }
 }
-const ResetDevicePortalForm = Form.create({ name: 'addDevice' })(DevicePortal)
-export default ResetDevicePortalForm;
+const AddDevicePortalForm = Form.create({ name: 'addDevice' })(AddDevicePortal)
+export default AddDevicePortalForm;

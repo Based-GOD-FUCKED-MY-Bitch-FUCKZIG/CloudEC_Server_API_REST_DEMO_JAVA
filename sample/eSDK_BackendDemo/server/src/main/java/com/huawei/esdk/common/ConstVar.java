@@ -20,14 +20,6 @@ public interface ConstVar {
     static final int SC_UNAUTH = 401;
     static final int SC_UNFOUND = 404;
     static final int SC_TOKEN_IS_NULL = 11070001;
-<<<<<<< HEAD
     static final int SC_TOKEN_EXPIRED = 18000000;
-=======
-<<<<<<< HEAD
-    static final int SC_TOKEN_EXPIRED = 18000000;
-=======
-    //static final int SC_TOKEN_EXPIRED = 18000000;
->>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
->>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
     static final int SC_TOKEN_TIMEOUT = 206010005;
 }

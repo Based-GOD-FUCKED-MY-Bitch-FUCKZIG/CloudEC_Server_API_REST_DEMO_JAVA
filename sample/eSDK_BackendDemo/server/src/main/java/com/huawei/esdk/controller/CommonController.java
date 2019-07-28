@@ -54,15 +54,7 @@ public class CommonController {
         }
         int returnCode = jsonParser.parse(response.getEntity()).getAsJsonObject().get("returnCode").getAsInt();
 
-<<<<<<< HEAD
         if(returnCode == ConstVar.SC_TOKEN_IS_NULL || returnCode == ConstVar.SC_TOKEN_TIMEOUT || returnCode == ConstVar.SC_TOKEN_EXPIRED){
-=======
-<<<<<<< HEAD
-        if(returnCode == ConstVar.SC_TOKEN_IS_NULL || returnCode == ConstVar.SC_TOKEN_TIMEOUT || returnCode == ConstVar.SC_TOKEN_EXPIRED){
-=======
-        if(returnCode == ConstVar.SC_TOKEN_IS_NULL || returnCode == ConstVar.SC_TOKEN_TIMEOUT){
->>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
->>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
             return ErroMessage.setUnAuthed(httpResponse);
         }
 

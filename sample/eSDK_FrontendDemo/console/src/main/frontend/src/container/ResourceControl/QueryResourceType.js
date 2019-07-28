@@ -22,15 +22,7 @@ let contentType;
 let contentLength;
 let server;
 // let proxyId;
-<<<<<<< HEAD
 //查询SP支持的订单资源类型API接口调用
-=======
-<<<<<<< HEAD
-//查询SP支持的订单资源类型API接口调用
-=======
-//查询企业资源列表API接口调用
->>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
->>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
 export default class QueryResourceType extends React.Component {
     constructor () {
         super();

@@ -233,10 +233,6 @@ export const modifyResourceExpireTimeBody = [{
 	"expireDate": 1556612798 
 }]
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
 export const setDurationBody = { 
 	"duration": 20
 }
@@ -251,8 +247,3 @@ export const setChairViewBody = {
     "status":0
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> aefd7c3fcb8fc413cb1bb9693d0dd3b4827d3ed5
->>>>>>> c1c423d904179073920fb1f87c711ca4b882a104
